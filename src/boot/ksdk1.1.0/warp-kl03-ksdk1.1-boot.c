@@ -56,7 +56,7 @@
 #include "warp.h"
 
 
-//#define WARP_FRDMKL03
+#define WARP_FRDMKL03
 
 
 /*
@@ -209,7 +209,7 @@ void					enableTPS82740B(uint16_t voltageMillivolts);
 void					setTPS82740CommonControlLines(uint16_t voltageMillivolts);
 void					printPinDirections(void);
 void					dumpProcessorState(void);
-void					repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t baseAddress, 
+void					repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t baseAddress,
 								uint8_t pullupValue, bool autoIncrement, int chunkReadsPerAddress, bool chatty,
 								int spinDelay, int repetitionsPerAddress, uint16_t sssupplyMillivolts,
 								uint16_t adaptiveSssupplyMaxMillivolts, uint8_t referenceByte);
@@ -1466,7 +1466,7 @@ main(void)
 		SEGGER_RTT_WriteString(0, "\rEnter selection> ");
 		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 		key = SEGGER_RTT_WaitKey();
-		
+
 		switch (key)
 		{
 			/*
