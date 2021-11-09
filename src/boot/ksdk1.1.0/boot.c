@@ -1606,7 +1606,7 @@ main(void)
 
 	#if (WARP_BUILD_ENABLE_DEVMMA8451Q)
 //		initMMA8451Q(	0x1C	/* i2cAddress */,	&deviceMMA8451QState,		kWarpDefaultSupplyVoltageMillivoltsMMA8451Q	);
-		initMMA8451Q(	0x1C	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsMMA8451Q	);
+		initMMA8451Q(	0x1D	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsMMA8451Q	);
 	#endif
 
 	#if (WARP_BUILD_ENABLE_DEVLPS25H)
@@ -1770,7 +1770,7 @@ main(void)
 		{
 			warpPrint("IS25xP Flash ID = [0x%X]\n", deviceIS25xPState.spiSinkBuffer[4]);
 		}
-		
+
 	#endif
 
 	#if (WARP_BUILD_ENABLE_DEVISL23415)
