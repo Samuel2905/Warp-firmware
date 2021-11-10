@@ -163,7 +163,7 @@ devSSD1331init(void)
 	 *	of green.
 	 */
 
-write_command(kSSD1331CommandDRAWRECT);
+writeCommand(kSSD1331CommandDRAWRECT);
 writeCommand(0x00); // Column Address of Start
 writeCommand(0x00); // Row Address of Start
 writeCommand(0x5F); // Column Address of End
