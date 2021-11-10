@@ -3901,3 +3901,6 @@ activateAllLowPowerSensorModes(bool verbose)
 		GPIO_DRV_ClearPinOutput(kWarpPinSI4705_nRST);
 	#endif
 }
+
+
+devSSD1331init();
