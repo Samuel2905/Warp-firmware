@@ -1600,6 +1600,9 @@ main(void)
 	/*
 	 *	Initialize all the sensors
 	 */
+
+	 devSSD1331init();
+
 	#if (WARP_BUILD_ENABLE_DEVBMX055)
 		initBMX055accel(0x18	/* i2cAddress */,	&deviceBMX055accelState,	kWarpDefaultSupplyVoltageMillivoltsBMX055accel	);
 		initBMX055gyro(	0x68	/* i2cAddress */,	&deviceBMX055gyroState,		kWarpDefaultSupplyVoltageMillivoltsBMX055gyro	);
@@ -3901,5 +3904,3 @@ activateAllLowPowerSensorModes(bool verbose)
 		GPIO_DRV_ClearPinOutput(kWarpPinSI4705_nRST);
 	#endif
 }
-
-devSSD1331init();
