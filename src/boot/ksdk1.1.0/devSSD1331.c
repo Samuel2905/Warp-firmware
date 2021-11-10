@@ -168,7 +168,7 @@ writeCommand(0x00); // Row Address of Start
 writeCommand(0x5F); // Column Address of End
 writeCommand(0x3F); // Row Address of End
 writeCommand(0x00); // Colour C of the line
-writeCommand(0x28); // Colour B of the line
+writeCommand(0x37); // Colour B of the line
 writeCommand(0x00); // Colour A of the line
 writeCommand(0x00); // Colour C of the fill area
 writeCommand(0x28); // Colour B of the fill area
