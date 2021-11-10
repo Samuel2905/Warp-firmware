@@ -3902,5 +3902,5 @@ activateAllLowPowerSensorModes(bool verbose)
 	#endif
 }
 
-int test
+int test;
 test = devSSD1331init();
