@@ -68,6 +68,8 @@
 #define							kWarpConstantStringErrorSanity		"\rSanity check failed!"
 
 
+#include "devSSD1331.h"
+
 #if (WARP_BUILD_ENABLE_DEVADXL362)
 	#include "devADXL362.h"
 	volatile WarpSPIDeviceState			deviceADXL362State;
