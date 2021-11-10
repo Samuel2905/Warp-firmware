@@ -63,8 +63,7 @@ writeCommand(uint8_t commandByte)
 
 
 
-int
-devSSD1331init(void)
+int devSSD1331init(void)
 {
 	/*
 	 *	Override Warp firmware's use of these pins.
@@ -74,7 +73,7 @@ devSSD1331init(void)
 	PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3);
 	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
 
-	enableSPIpins();
+	warpEnableSPIpins();
 
 	/*
 	 *	Override Warp firmware's use of these pins.
