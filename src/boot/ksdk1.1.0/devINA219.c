@@ -37,21 +37,14 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 }
 
 WarpStatus
-writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload, uint16_t menuI2cPullupValue)
+writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload, uint16_t menuI2cPullupValue)
 {
 	uint8_t		payloadByte[1], commandByte[1];
 	i2c_status_t	status;
-  // Does this bit refer to the registers of the device? Edit
+	// Addresses for registers you can write to
 	switch (deviceRegister)
 	{
-		case 0x09: case 0x0a: case 0x0e: case 0x0f:
-		case 0x11: case 0x12: case 0x13: case 0x14:
-		case 0x15: case 0x17: case 0x18: case 0x1d:
-		case 0x1f: case 0x20: case 0x21: case 0x23:
-		case 0x24: case 0x25: case 0x26: case 0x27:
-		case 0x28: case 0x29: case 0x2a: case 0x2b:
-		case 0x2c: case 0x2d: case 0x2e: case 0x2f:
-		case 0x30: case 0x31:
+		case 0x00: case 0x05:
 		{
 			/* OK */
 			break;
@@ -65,7 +58,7 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload, uint16_t menu
 
 	i2c_device_t slave =
 	{
-		.address = deviceMMA8451QState.i2cAddress,
+		.address = deviceINA219State.i2cAddress,
 		.baudRate_kbps = gWarpI2cBaudRateKbps
 	};
 
@@ -91,20 +84,20 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload, uint16_t menu
 }
 
 WarpStatus
-configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1)
+configureSensorINA219(uint16_t payloadConfig_Reg, uint16_t payloadCalibration)
 {
 	WarpStatus	i2cWriteStatus1, i2cWriteStatus2;
 
 
 	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
-
-	i2cWriteStatus1 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QF_SETUP /* register address F_SETUP */,
-							payloadF_SETUP /* payload: Disable FIFO */
-							);
-
-	i2cWriteStatus2 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QCTRL_REG1 /* register address CTRL_REG1 */,
-							payloadCTRL_REG1 /* payload */
-							);
+	// Where does the first kWarp variable come from? Is this correct?
+	i2cWriteStatus1 = writeSensorRegisterINA219(kWarpSensorConfigurationRegisterINA219Config_Reg /* register address Config Reg */,
+							payloadConfig_Reg /* payload default: 0x399F*/
+							menuI2cPullupValue);
+	
+	i2cWriteStatus2 = writeSensorRegisterINA219(kWarpSensorConfigurationRegisterINA219Calib /* register address Calibration */,
+							payloadCalibration /* payload default: 0x0000*/
+							menuI2cPullupValue);
 
 	return (i2cWriteStatus1 | i2cWriteStatus2);
 }
@@ -117,19 +110,11 @@ readSensorRegisterMMA8451Q(uint8_t deviceRegister, int numberOfBytes)
 
 
 	USED(numberOfBytes);
+	// Register addresses you can read
 	switch (deviceRegister)
 	{
 		case 0x00: case 0x01: case 0x02: case 0x03:
-		case 0x04: case 0x05: case 0x06: case 0x09:
-		case 0x0a: case 0x0b: case 0x0c: case 0x0d:
-		case 0x0e: case 0x0f: case 0x10: case 0x11:
-		case 0x12: case 0x13: case 0x14: case 0x15:
-		case 0x16: case 0x17: case 0x18: case 0x1d:
-		case 0x1e: case 0x1f: case 0x20: case 0x21:
-		case 0x22: case 0x23: case 0x24: case 0x25:
-		case 0x26: case 0x27: case 0x28: case 0x29:
-		case 0x2a: case 0x2b: case 0x2c: case 0x2d:
-		case 0x2e: case 0x2f: case 0x30: case 0x31:
+		case 0x04: case 0x05:
 		{
 			/* OK */
 			break;
@@ -143,11 +128,11 @@ readSensorRegisterMMA8451Q(uint8_t deviceRegister, int numberOfBytes)
 
 	i2c_device_t slave =
 	{
-		.address = deviceMMA8451QState.i2cAddress,
+		.address = deviceINA219State.i2cAddress,
 		.baudRate_kbps = gWarpI2cBaudRateKbps
 	};
 
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	cmdBuf[0] = deviceRegister;
 	warpEnableI2Cpins();
 
@@ -156,7 +141,7 @@ readSensorRegisterMMA8451Q(uint8_t deviceRegister, int numberOfBytes)
 							&slave,
 							cmdBuf,
 							1,
-							(uint8_t *)deviceMMA8451QState.i2cBuffer,
+							(uint8_t *)deviceINA219State.i2cBuffer,
 							numberOfBytes,
 							gWarpI2cTimeoutMilliseconds);
 
