@@ -62,7 +62,7 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload, uint16_t men
 		.baudRate_kbps = gWarpI2cBaudRateKbps
 	};
 
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	commandByte[0] = deviceRegister;
 	// Are these the right way around?
 	payloadByte[0] = payload >> 8; // Right shift by 8 to get top half
@@ -91,7 +91,7 @@ configureSensorINA219(uint16_t payloadConfig_Reg, uint16_t payloadCalibration)
 	WarpStatus	i2cWriteStatus1, i2cWriteStatus2;
 
 
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	i2cWriteStatus1 = writeSensorRegisterINA219(0x00 /* register address Config Reg */,
 							payloadConfig_Reg /* payload default: 0x399F*/
 							menuI2cPullupValue);
@@ -155,7 +155,7 @@ readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes)
 }
 
 void
-printSensorDataMMA8451Q(bool hexModeFlag)
+printSensorDataINA219(bool hexModeFlag)
 {
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
@@ -163,7 +163,7 @@ printSensorDataMMA8451Q(bool hexModeFlag)
 	WarpStatus	i2cReadStatus;
 
 
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
+	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	/*
 	0x01: Shunt voltage
 	0x02: Bus voltage
@@ -172,7 +172,7 @@ printSensorDataMMA8451Q(bool hexModeFlag)
 	*/
 
 
-	i2cReadStatus = readSensorRegisterINA219(0x04 /* current*/ , 2 /* numberOfBytes */);
+	i2cReadStatus = readSensorRegisterINA219(0x02 /* Voltage*/ , 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB);
@@ -189,7 +189,7 @@ printSensorDataMMA8451Q(bool hexModeFlag)
 		}
 		else
 		{
-			warpPrint("Current %d,", readSensorRegisterValueCombined);
+			warpPrint("Voltage: %d,", readSensorRegisterValueCombined);
 		}
 	}
 }
