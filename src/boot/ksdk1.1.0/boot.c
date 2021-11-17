@@ -173,6 +173,11 @@
 	volatile WarpI2CDeviceState			deviceRV8803C7State;
 #endif
 
+#if (WARP_BUILD_ENABLE_INA219)
+	#include "INA219.h"
+	volatile WarpI2CDeviceState			deviceINA219State;
+#endif
+
 #if (WARP_BUILD_ENABLE_DEVBGX)
 	#include "devBGX.h"
 	volatile WarpUARTDeviceState			deviceBGXState;
@@ -1602,6 +1607,10 @@ main(void)
 	 */
 
 	 devSSD1331init();
+
+	#if (WARP_BUILD_ENABLE_INA219)
+ 		initINA219(	0x40	/* i2cAddress */,	&deviceINA219State,		kWarpDefaultSupplyVoltageMillivoltsINA219	);
+ 	#endif
 
 	#if (WARP_BUILD_ENABLE_DEVBMX055)
 		initBMX055accel(0x18	/* i2cAddress */,	&deviceBMX055accelState,	kWarpDefaultSupplyVoltageMillivoltsBMX055accel	);
