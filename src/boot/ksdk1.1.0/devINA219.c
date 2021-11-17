@@ -37,7 +37,7 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts) // Com
 }
 
 WarpStatus
-writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload, uint16_t menuI2cPullupValue) // Edit for 2 byte payload
+writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload, uint16_t menuI2cPullupValue)
 {
 	uint8_t		payloadByte[2], commandByte[1];
 	i2c_status_t	status;
@@ -64,8 +64,9 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload, uint16_t men
 
 	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
 	commandByte[0] = deviceRegister;
-	payloadByte[0] = payload; // Edit
-	payloadByte[1] = payload; // Edit
+	// Are these the right way around?
+	payloadByte[0] = payload >> 8; // Right shift by 8 to get top half
+	payloadByte[1] = payload & 0xFF; // and with 8 1s to just get bottom half
 	warpEnableI2Cpins();
 
 	status = I2C_DRV_MasterSendDataBlocking(
@@ -91,13 +92,12 @@ configureSensorINA219(uint16_t payloadConfig_Reg, uint16_t payloadCalibration)
 
 
 	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
-	// Where does the first kWarp variable come from? Is this correct?
-	i2cWriteStatus1 = writeSensorRegisterINA219(kWarpSensorConfigurationRegisterINA219Config_Reg /* register address Config Reg */,
+	i2cWriteStatus1 = writeSensorRegisterINA219(0x00 /* register address Config Reg */,
 							payloadConfig_Reg /* payload default: 0x399F*/
 							menuI2cPullupValue);
 
-	i2cWriteStatus2 = writeSensorRegisterINA219(kWarpSensorConfigurationRegisterINA219Calib /* register address Calibration */,
-							payloadCalibration /* payload default: 0x0000*/
+	i2cWriteStatus2 = writeSensorRegisterINA219(0x05 /* register address Calibration */,
+							payloadCalibration /* payload default: 0x0000 but need to calculate what it should be*/
 							menuI2cPullupValue);
 
 	return (i2cWriteStatus1 | i2cWriteStatus2);
@@ -164,28 +164,18 @@ printSensorDataMMA8451Q(bool hexModeFlag)
 
 
 	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
-
 	/*
-	 *	From the MMA8451Q datasheet:
-	 *
-	 *		"A random read access to the LSB registers is not possible.
-	 *		Reading the MSB register and then the LSB register in sequence
-	 *		ensures that both bytes (LSB and MSB) belong to the same data
-	 *		sample, even if a new data sample arrives between reading the
-	 *		MSB and the LSB byte."
-	 *
-	 *	We therefore do 2-byte read transactions, for each of the registers.
-	 *	We could also improve things by doing a 6-byte read transaction.
-	 */
-	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
+	0x01: Shunt voltage
+	0x02: Bus voltage
+	0x03: Power
+	0x04: Current
+	*/
 
-	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
-	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
+
+	i2cReadStatus = readSensorRegisterINA219(0x04 /* current*/ , 2 /* numberOfBytes */);
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB);
 
 	if (i2cReadStatus != kWarpStatusOK)
 	{
@@ -199,59 +189,7 @@ printSensorDataMMA8451Q(bool hexModeFlag)
 		}
 		else
 		{
-			warpPrint(" %d,", readSensorRegisterValueCombined);
-		}
-	}
-
-	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
-
-	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
-	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
-
-	if (i2cReadStatus != kWarpStatusOK)
-	{
-		warpPrint(" ----,");
-	}
-	else
-	{
-		if (hexModeFlag)
-		{
-			warpPrint(" 0x%02x 0x%02x,", readSensorRegisterValueMSB, readSensorRegisterValueLSB);
-		}
-		else
-		{
-			warpPrint(" %d,", readSensorRegisterValueCombined);
-		}
-	}
-
-	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Z_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
-
-	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
-	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
-
-	if (i2cReadStatus != kWarpStatusOK)
-	{
-		warpPrint(" ----,");
-	}
-	else
-	{
-		if (hexModeFlag)
-		{
-			warpPrint(" 0x%02x 0x%02x,", readSensorRegisterValueMSB, readSensorRegisterValueLSB);
-		}
-		else
-		{
-			warpPrint(" %d,", readSensorRegisterValueCombined);
+			warpPrint("Current %d,", readSensorRegisterValueCombined);
 		}
 	}
 }
