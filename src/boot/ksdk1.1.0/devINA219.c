@@ -160,6 +160,7 @@ printSensorDataINA219(bool hexModeFlag, uint8_t address)
 	int16_t		readSensorRegisterValueCombined;
 	int16_t	  Voltage;
 	int16_t		Current;
+	int16_t 	Power;
 	WarpStatus	i2cReadStatus;
 
 
@@ -199,12 +200,13 @@ printSensorDataINA219(bool hexModeFlag, uint8_t address)
 		}
 		else if (address == 0x03)
 		{
-			warpPrint("Power : %d W?,\n", readSensorRegisterValueCombined);
+			Power = readSensorRegisterValueCombined * 2;
+			warpPrint("Power : %d mW,\n", Power);
 		}
 		else if (address == 0x04)
 		{
-			current = readSensorRegisterValueCombined
-			warpPrint("Current : %d mA,\n", current);
+			Current = readSensorRegisterValueCombined / 10;
+			warpPrint("Current : %d mA,\n", Current);
 		}
 		else
 		{
