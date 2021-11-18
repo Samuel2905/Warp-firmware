@@ -153,7 +153,7 @@ readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes)
 }
 
 void
-printSensorDataINA219(bool hexModeFlag)
+printSensorDataINA219(bool hexModeFlag, uint8_t address)
 {
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
@@ -170,7 +170,8 @@ printSensorDataINA219(bool hexModeFlag)
 	*/
 
 
-	i2cReadStatus = readSensorRegisterINA219(0x02 /* Voltage*/ , 2 /* numberOfBytes */);
+	// i2cReadStatus = readSensorRegisterINA219(0x02 /* Voltage*/ , 2 /* numberOfBytes */);
+	i2cReadStatus = readSensorRegisterINA219(address , 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB);
@@ -187,7 +188,7 @@ printSensorDataINA219(bool hexModeFlag)
 		}
 		else
 		{
-			warpPrint("Voltage: %d,", readSensorRegisterValueCombined);
+			warpPrint("Value: %d,\n", readSensorRegisterValueCombined);
 		}
 	}
 }
