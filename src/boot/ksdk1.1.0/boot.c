@@ -174,7 +174,7 @@
 #endif
 
 #if (WARP_BUILD_ENABLE_INA219)
-	#include "INA219.h"
+	#include "devINA219.h"
 	volatile WarpI2CDeviceState			deviceINA219State;
 #endif
 
