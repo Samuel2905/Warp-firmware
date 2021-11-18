@@ -193,7 +193,7 @@ printSensorDataINA219(bool hexModeFlag, uint8_t address)
 		}
 		else if (address == 0x02)
 		{
-			Voltage = (readSensorRegisterValueCombined >> 3) * 4
+			Voltage = (readSensorRegisterValueCombined >> 3) * 4;
 			warpPrint("Bus Voltage: %d mV,\n", Voltage);
 		}
 		else
