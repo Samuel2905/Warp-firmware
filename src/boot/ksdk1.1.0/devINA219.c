@@ -37,7 +37,7 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts) // rem
 }
 
 WarpStatus
-writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload, uint16_t menuI2cPullupValue)
+writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload)
 {
 	uint8_t		payloadByte[2], commandByte[1];
 	i2c_status_t	status;
@@ -86,19 +86,17 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload, uint16_t men
 }
 
 WarpStatus
-configureSensorINA219(uint16_t payloadConfig_Reg, uint16_t payloadCalibration, uint16_t menuI2cPullupValue)
+configureSensorINA219(uint16_t payloadConfig_Reg, uint16_t payloadCalibration)
 {
 	WarpStatus	i2cWriteStatus1, i2cWriteStatus2;
 
 
 	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	i2cWriteStatus1 = writeSensorRegisterINA219(0x00 /* register address Config Reg */,
-							payloadConfig_Reg /* payload default: 0x399F*/,
-							menuI2cPullupValue);
+							payloadConfig_Reg /* payload default: 0x399F*/);
 
 	i2cWriteStatus2 = writeSensorRegisterINA219(0x05 /* register address Calibration */,
-							payloadCalibration /* payload default: 0x0000 but need to calculate what it should be*/,
-							menuI2cPullupValue);
+							payloadCalibration /* payload default: 0x0000 but need to calculate what it should be*/);
 
 	return (i2cWriteStatus1 | i2cWriteStatus2);
 }
