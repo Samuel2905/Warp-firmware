@@ -186,6 +186,15 @@ printSensorDataINA219(bool hexModeFlag, uint8_t address)
 		{
 			warpPrint(" 0x%02x 0x%02x,", readSensorRegisterValueMSB, readSensorRegisterValueLSB);
 		}
+		else if (address == 0x01)
+		{
+			warpPrint("Shunt Voltage: %d mV,\n", readSensorRegisterValueCombined);
+		}
+		else if (address == 0x02)
+		{
+			V = (readSensorRegisterValueCombined >> 3) * 4
+			warpPrint("Bus Voltage: %d mV,\n", V);
+		}
 		else
 		{
 			warpPrint("Value: %d,\n", readSensorRegisterValueCombined);
