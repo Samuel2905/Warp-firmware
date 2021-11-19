@@ -1615,6 +1615,7 @@ main(void)
 		printSensorDataINA219(false, 0x01);
 		printSensorDataINA219(false, 0x04);
 		printSensorDataINA219(false, 0x03);
+		int i;
 		for (i = 0; i < 1000; ++i)
 		{
 			printSensorDataINA219(false, 0x04);
