@@ -88,6 +88,7 @@ typedef enum
 	kWarpSensorAS7262,
 	kWarpSensorAS7263,
 	kWarpSensorSCD30,
+	kWarpSensorINA219,
 } WarpSensorDevice;
 
 typedef enum
@@ -140,6 +141,8 @@ typedef enum
 	kWarpSensorConfigurationRegisterBME680CalibrationRegion2Start	= 0xE1,
 	kWarpSensorConfigurationRegisterBME680CalibrationRegion2End	= 0xF2,
 
+	kWarpSensorConfigurationRegisterINA219Config_Reg			= 0x00,
+	kWarpSensorConfigurationRegisterINA219Calibration			= 0x05,
 	/*
 	 *	See Table 4 of the ISL23415 manual. We choose to use the encoding
 	 *	where we always set R4:R0 to 0000

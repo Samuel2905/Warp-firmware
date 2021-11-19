@@ -173,7 +173,7 @@
 	volatile WarpI2CDeviceState			deviceRV8803C7State;
 #endif
 
-#if (WARP_BUILD_ENABLE_INA219)
+#if (WARP_BUILD_ENABLE_DEVINA219)
 	#include "devINA219.h"
 	volatile WarpI2CDeviceState			deviceINA219State;
 #endif
@@ -1608,7 +1608,7 @@ main(void)
 
 	 devSSD1331init();
 
-	#if (WARP_BUILD_ENABLE_INA219)
+	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);
 		configureSensorINA219(0x399F /* Configuration register*/, 0x1000 /*Calibration Register*/);
 		printSensorDataINA219(false, 0x02 /*INA219 Bus Voltage register address*/);
@@ -2196,6 +2196,12 @@ main(void)
 					warpPrint("\r\t- 'k' AS7263			(0x00--0x2B): 2.7V -- 3.6V (compiled out) \n");
 				#endif
 
+				#if (WARP_BUILD_ENABLE_DEVINA219)
+					warpPrint("\r\t- 'l' INA219			(0x00--0x05): 2.7V -- 3.6V\n");
+				#else
+					warpPrint("\r\t- 'l' INA219			(0x00--0x05): 2.7V -- 3.6V (compiled out) \n");
+				#endif
+
 				warpPrint("\r\tEnter selection> ");
 				key = warpWaitKey();
 
@@ -2342,6 +2348,14 @@ main(void)
 					{
 						menuTargetSensor = kWarpSensorAS7263;
 						menuI2cDevice = &deviceAS7263State;
+						break;
+					}
+#endif
+#if (WARP_BUILD_ENABLE_DEVINA219)
+					case 'l':
+					{
+						menuTargetSensor = kWarpSensorINA219;
+						menuI2cDevice = &deviceINA219State;
 						break;
 					}
 #endif
@@ -2881,6 +2895,11 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 					0b10000000,/* unfiltered data, shadowing enabled */
 					);
 	#endif
+	#if (WARP_BUILD_ENABLE_DEVINA219)
+	numberOfConfigErrors += configureSensorINA219(0x399F /* Configuration register*/,
+					0x1000 /*Calibration Register*/
+					);
+	#endif
 
 	if (printHeadersAndCalibration)
 	{
@@ -2928,6 +2947,10 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 			warpPrint(" HDC1000 Temp, HDC1000 Hum,");
 		#endif
 
+		#if (WARP_BUILD_ENABLE_DEVINA219)
+			warpPrint(" INA219 Current");
+		#endif
+
 		warpPrint(" RTC->TSR, RTC->TPR, # Config Errors");
 		warpPrint("\n\n");
 	}
@@ -2972,6 +2995,10 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 
 		#if (WARP_BUILD_ENABLE_DEVHDC1000)
 			printSensorDataHDC1000(hexModeFlag);
+		#endif
+
+		#if (WARP_BUILD_ENABLE_DEVINA219)
+			printSensorDataINA219(hexModeFlag, 0x04 /* Current*/);
 		#endif
 
 		warpPrint(" %12d, %6d, %2u\n", RTC->TSR, RTC->TPR, numberOfConfigErrors);
@@ -3620,6 +3647,35 @@ repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t
 						);
 			#else
 				warpPrint("\r\n\tAS7263 Read Aborted. Device Disabled :( ");
+			#endif
+
+			break;
+		}
+
+		case kWarpSensorINA219:
+		{
+			/*
+			 *	INA219
+			 */
+			#if (WARP_BUILD_ENABLE_DEVINA219)
+				loopForSensor(	"\r\nINA219:\n\r",		/*	tagString			*/
+						&readSensorRegisterINA219,	/*	readSensorRegisterFunction	*/
+						&deviceINA219State,		/*	i2cDeviceState			*/
+						NULL,				/*	spiDeviceState			*/
+						baseAddress,			/*	baseAddress			*/
+						0x00,				/*	minAddress			*/
+						0x05,				/*	maxAddress			*/
+						repetitionsPerAddress,		/*	repetitionsPerAddress		*/
+						chunkReadsPerAddress,		/*	chunkReadsPerAddress		*/
+						spinDelay,			/*	spinDelay			*/
+						autoIncrement,			/*	autoIncrement			*/
+						sssupplyMillivolts,		/*	sssupplyMillivolts		*/
+						referenceByte,			/*	referenceByte			*/
+						adaptiveSssupplyMaxMillivolts,	/*	adaptiveSssupplyMaxMillivolts	*/
+						chatty				/*	chatty				*/
+						);
+			#else
+				warpPrint("\r\n\tINA219 Read Aborted. Device Disabled :(");
 			#endif
 
 			break;
