@@ -2948,7 +2948,7 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVINA219)
-			warpPrint(" INA219 Current");
+			warpPrint(" INA219 Current,");
 		#endif
 
 		warpPrint(" RTC->TSR, RTC->TPR, # Config Errors");
