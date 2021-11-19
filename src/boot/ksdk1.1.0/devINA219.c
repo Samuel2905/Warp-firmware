@@ -207,7 +207,7 @@ printSensorDataINA219(bool hexModeFlag, uint8_t address)
 		{
 			Current = readSensorRegisterValueCombined * 100;
 			//warpPrint("Current : %d uA,\n", Current);
-			warpPrint("Current: %d µA, \n", Current);
+			warpPrint("Current: %d uA, \n", Current);
 		}
 		else
 		{
