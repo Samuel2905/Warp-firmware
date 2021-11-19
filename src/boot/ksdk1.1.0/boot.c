@@ -1609,17 +1609,19 @@ main(void)
 	 devSSD1331init();
 
 	#if (WARP_BUILD_ENABLE_INA219)
- 		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
-		configureSensorINA219(0x399F /* Configuration register*/, 4096 /*Calibration Register*/);
-		printSensorDataINA219(false, 0x02 /*INA219 register address*/);
-		printSensorDataINA219(false, 0x01);
-		printSensorDataINA219(false, 0x04);
-		printSensorDataINA219(false, 0x03);
+ 		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);
+		configureSensorINA219(0x399F /* Configuration register*/, 0x1000 /*Calibration Register*/);
+		printSensorDataINA219(false, 0x02 /*INA219 Bus Voltage register address*/);
+		printSensorDataINA219(false, 0x01 /* Shunt Voltage*/);
+		printSensorDataINA219(false, 0x04 /* Current*/);
+		printSensorDataINA219(false, 0x03 /* Power*/);
+		/*
 		int i;
 		for (i = 0; i < 1000; ++i)
 		{
 			printSensorDataINA219(false, 0x04);
 		}
+		*/
  	#endif
 
 	#if (WARP_BUILD_ENABLE_DEVBMX055)
