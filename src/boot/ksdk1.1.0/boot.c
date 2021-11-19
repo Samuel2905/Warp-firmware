@@ -1614,6 +1614,7 @@ main(void)
 		printSensorDataINA219(false, 0x02 /*INA219 register address*/);
 		printSensorDataINA219(false, 0x01);
 		printSensorDataINA219(false, 0x04);
+		printSensorDataINA219(false, 0x03);
  	#endif
 
 	#if (WARP_BUILD_ENABLE_DEVBMX055)
