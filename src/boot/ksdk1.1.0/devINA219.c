@@ -159,7 +159,7 @@ printSensorDataINA219(bool hexModeFlag, uint8_t address)
 	uint16_t	readSensorRegisterValueMSB;
 	int16_t		readSensorRegisterValueCombined;
 	int16_t	  Voltage;
-	int16_t		Current;
+	float 		Current;
 	int16_t 	Power;
 	WarpStatus	i2cReadStatus;
 
