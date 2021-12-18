@@ -25,9 +25,11 @@ enum
 };
 
 void TurnOnRelay(void) {
-  GPIO_DRV_SetPinOutput(kRelayPin);
+  GPIO_DRV_SetPinOutput(kWarpPinFPGA_nCS);
+  warpPrint("Relay On");
 }
 
 void TurnOffRelay(void) {
   GPIO_DRV_ClearPinOutput(kRelayPin);
+  warpPrint("Relay Off");
 }
