@@ -1611,8 +1611,8 @@ main(void)
 	 initRelay();
 	 TurnOnRelay();
 	 rtc_datetime_t				warpCurrentDate;
-	 RTC_DRV_GetDatetime((0, &warpCurrentDate));
-	 warpPrint(warpCurrentDate);
+	 RTC_DRV_GetDatetime(0, &warpCurrentDate);
+	 warpPrint(warpCurrentDate.year);
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);
