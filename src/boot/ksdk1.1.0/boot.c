@@ -1610,7 +1610,9 @@ main(void)
 	 devSSD1331init();
 	 initRelay();
 	 TurnOnRelay();
-	 // GPIO_DRV_SetPinOutput(kWarpPinSI4705_nRST);
+	 rtc_datetime_t				warpCurrentDate;
+	 RTC_DRV_GetDatetime((0, &warpCurrentDate));
+	 warpPrint(warpCurrentDate)
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);
