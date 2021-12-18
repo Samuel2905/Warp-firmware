@@ -1608,6 +1608,7 @@ main(void)
 	 */
 
 	 devSSD1331init();
+	 initRelay();
 	 TurnOnRelay();
 	 // GPIO_DRV_SetPinOutput(kWarpPinSI4705_nRST);
 
