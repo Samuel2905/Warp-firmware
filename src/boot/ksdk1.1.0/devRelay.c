@@ -37,6 +37,7 @@ void TurnOnRelay(void) {
   GPIO_DRV_SetPinOutput(kRelayPin7);
   GPIO_DRV_SetPinOutput(kRelayPin11);
   warpPrint("Relay On\n");
+  OSA_TimeDelay(1000);
 }
 
 void TurnOffRelay(void) {
