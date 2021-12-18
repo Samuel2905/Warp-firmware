@@ -40,6 +40,6 @@ void TurnOnRelay(void) {
 }
 
 void TurnOffRelay(void) {
-  GPIO_DRV_ClearPinOutput(kRelayPin);
+  GPIO_DRV_ClearPinOutput(kRelayPin1);
   warpPrint("Relay Off\n");
 }
