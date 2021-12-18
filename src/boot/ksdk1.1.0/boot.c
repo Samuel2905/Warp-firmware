@@ -69,6 +69,7 @@
 
 
 #include "devSSD1331.h"
+#include "devRelay.h"
 
 #if (WARP_BUILD_ENABLE_DEVADXL362)
 	#include "devADXL362.h"
@@ -1607,6 +1608,7 @@ main(void)
 	 */
 
 	 devSSD1331init();
+	 TurnOnRelay();
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);
