@@ -24,7 +24,6 @@ enum
 	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 10),
 	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
 	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
-	kRelayTest		= GPIO_MAKE_PIN(HW_GPIOB, 1),
 };
 
 static int
@@ -58,7 +57,6 @@ writeCommand(uint8_t commandByte)
 	 *	Drive /CS high
 	 */
 	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
-	GPIO_DRV_SetPinOutput(kRelayTest);
 
 	return status;
 }
