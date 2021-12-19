@@ -22,13 +22,16 @@
 enum
 {
 	kRelayPin	= GPIO_MAKE_PIN(HW_GPIOB, 1),
+	kRelayPin11	= GPIO_MAKE_PIN(HW_GPIOB, 11),
 };
 
 void initRelay(void) {
 	PORT_HAL_SetMuxMode(PORTB_BASE, 1, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTB_BASE, 11, kPortMuxAsGpio);
 }
 void TurnOnRelay(void) {
   GPIO_DRV_SetPinOutput(kRelayPin);
+	GPIO_DRV_SetPinOutput(kRelayPin11);
   warpPrint("Relay On\n");
 }
 
