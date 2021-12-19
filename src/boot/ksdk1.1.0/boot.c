@@ -56,6 +56,7 @@
 #include "fsl_mcglite_hal.h"
 #include "fsl_port_hal.h"
 #include "fsl_lpuart_driver.h"
+#include "fsl_adc16_driver.h"
 #include "glaux.h"
 #include "warp.h"
 #include "errstrs.h"
