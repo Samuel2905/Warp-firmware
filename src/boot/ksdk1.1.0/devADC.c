@@ -49,8 +49,8 @@ void readADC(void) {
 
   // Fetch the conversion value and format it. //
   MyAdcValue = ADC16_DRV_GetConvValueRAW(instance, chnGroup);
-  warpPrint("ADC16_DRV_GetConvValueRAW: 0x%Xnt", MyAdcValue);
-  warpPrint("ADC16_DRV_ConvRAWData: %ldnrnn",
+  warpPrint("ADC16_DRV_GetConvValueRAW: 0x%Xnt\n", MyAdcValue);
+  warpPrint("ADC16_DRV_ConvRAWData: %ldnrnn\n",
           ADC16_DRV_ConvRAWData(MyAdcValue, false,
           kAdcResolutionBitOfSingleEndAs12) );
 }
