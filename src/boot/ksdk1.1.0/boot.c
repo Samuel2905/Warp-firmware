@@ -71,6 +71,7 @@
 
 #include "devSSD1331.h"
 #include "devRelay.h"
+#include "devADC.h"
 
 #if (WARP_BUILD_ENABLE_DEVADXL362)
 	#include "devADXL362.h"
@@ -1614,6 +1615,9 @@ main(void)
 	 rtc_datetime_t				warpCurrentDate;
 	 RTC_DRV_GetDatetime(0, &warpCurrentDate);
 	 warpPrint("Year: %d \n", warpCurrentDate.year);
+
+	 initADC();
+	 readADC();
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);

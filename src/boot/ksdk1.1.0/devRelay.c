@@ -27,6 +27,7 @@ enum
 void initRelay(void) {
 	PORT_HAL_SetMuxMode(PORTB_BASE, 1, kPortMuxAsGpio);
 }
+
 void TurnOnRelay(void) {
   GPIO_DRV_SetPinOutput(kRelayPin);
   warpPrint("Relay On\n");
