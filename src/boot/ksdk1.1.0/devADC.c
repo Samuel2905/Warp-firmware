@@ -25,10 +25,10 @@ uint32_t i;
 
 uint32_t instance = 0;
 uint32_t chnGroup = 0;
-uint8_t chn = 1;        //PTB5 is ADC0_SE1
+uint8_t chn = 8;        //PTB1 is ADC0_SE8
 
 void initADC(void) {
-  PORT_HAL_SetMuxMode(PORTA_BASE, 5u, kPortMuxAlt0);
+  // PORT_HAL_SetMuxMode(PORTB_BASE, 1u, kPortMuxAlt0);
 
   // Initialize the ADC converter. //
   ADC16_DRV_StructInitUserConfigDefault(&MyAdcUserConfig);
