@@ -1618,9 +1618,9 @@ main(void)
 
 	 initADC();
 	 readADC();
-	 OSA_TimeDelay(1000)
+	 OSA_TimeDelay(1000);
 	 readADC();
-	 OSA_TimeDelay(1000)
+	 OSA_TimeDelay(1000);
 	 readADC();
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
