@@ -53,7 +53,7 @@ void readADC(void) {
   // Fetch the conversion value and format it. //
   MyAdcValue = ADC16_DRV_GetConvValueRAW(instance, chnGroup);
   warpPrint("ADC Hex Value: 0x%X\n", MyAdcValue);
-  MyAdcDec = ADC16_DRV_ConvRAWData(MyAdcValue, false, kAdcResolutionBitOfSingleEndAs12)
+  MyAdcDec = ADC16_DRV_ConvRAWData(MyAdcValue, false, kAdcResolutionBitOfSingleEndAs12);
   warpPrint("ADC dec Value: %ld\n", MyAdcDec);
   MyAdcVol = MyAdcDec * 2970 / 4095;
   warpPrint("ADC Voltage: %ld mV\n", MyAdcDec);
