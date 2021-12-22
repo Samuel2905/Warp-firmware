@@ -38,7 +38,7 @@ void initADC(void) {
   MyChnConfig.chnNum = chn;
   MyChnConfig.diffEnable= false;
   MyChnConfig.intEnable = false;
-  warpPrint("ADC initialised")
+  warpPrint("ADC initialised");
 }
 
 void readADC(void) {
