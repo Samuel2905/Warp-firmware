@@ -1618,6 +1618,10 @@ main(void)
 
 	 initADC();
 	 readADC();
+	 OSA_TimeDelay(1000)
+	 readADC();
+	 OSA_TimeDelay(1000)
+	 readADC();
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);
