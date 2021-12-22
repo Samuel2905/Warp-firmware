@@ -21,6 +21,8 @@
 adc16_user_config_t MyAdcUserConfig;
 adc16_chn_config_t MyChnConfig;
 int32_t MyAdcValue;
+int32_t MyAdcDec;
+int32_t MyAdcVol;
 uint32_t i;
 
 uint32_t instance = 0;
@@ -50,8 +52,9 @@ void readADC(void) {
 
   // Fetch the conversion value and format it. //
   MyAdcValue = ADC16_DRV_GetConvValueRAW(instance, chnGroup);
-  warpPrint("ADC16_DRV_GetConvValueRAW: 0x%Xnt\n", MyAdcValue);
-  warpPrint("ADC16_DRV_ConvRAWData: %ldnrnn\n",
-          ADC16_DRV_ConvRAWData(MyAdcValue, false,
-          kAdcResolutionBitOfSingleEndAs12) );
+  warpPrint("ADC Hex Value: 0x%X\n", MyAdcValue);
+  MyAdcDec = ADC16_DRV_ConvRAWData(MyAdcValue, false, kAdcResolutionBitOfSingleEndAs12)
+  warpPrint("ADC dec Value: %ld\n", MyAdcDec);
+  MyAdcVol = myAdcDec * 2970 / 4095
+  warpPrint("ADC Voltage: %ld mV\n", MyAdcDec);
 }
