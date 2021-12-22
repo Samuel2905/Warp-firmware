@@ -1616,8 +1616,8 @@ main(void)
 	 RTC_DRV_GetDatetime(0, &warpCurrentDate);
 	 warpPrint("Year: %d \n", warpCurrentDate.year);
 
-	 //initADC();
-	 //readADC();
+	 initADC();
+	 readADC();
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);
