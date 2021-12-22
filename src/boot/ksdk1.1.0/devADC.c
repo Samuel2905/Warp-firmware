@@ -41,7 +41,6 @@ void initADC(void) {
   MyChnConfig.chnNum = chn;
   MyChnConfig.diffEnable= false;
   MyChnConfig.intEnable = false;
-  warpPrint("ADC initialised");
 }
 
 void readADC(void) {
@@ -53,7 +52,7 @@ void readADC(void) {
 
   // Fetch the conversion value and format it. //
   MyAdcValue = ADC16_DRV_GetConvValueRAW(instance, chnGroup);
-  warpPrint("ADC Hex Value: 0x%X\n", MyAdcValue);
+  //warpPrint("ADC Hex Value: 0x%X\n", MyAdcValue);
   MyAdcDec = ADC16_DRV_ConvRAWData(MyAdcValue, false, kAdcResolutionBitOfSingleEndAs12);
   warpPrint("ADC dec Value: %ld\n", MyAdcDec);
   ADCfloat = MyAdcDec * 2970 / 4095;
