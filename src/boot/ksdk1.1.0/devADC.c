@@ -58,5 +58,5 @@ uint16_t readADC(void) {
   ADCfloat = MyAdcDec * 2970 / 4095;
   MyAdcVol = (int)ADCfloat;
   //warpPrint("ADC Voltage: %ld mV\n", MyAdcVol);
-  return myAdcVol;
+  return MyAdcVol;
 }
