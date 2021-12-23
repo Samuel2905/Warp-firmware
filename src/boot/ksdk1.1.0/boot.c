@@ -1616,12 +1616,16 @@ main(void)
 	 RTC_DRV_GetDatetime(0, &warpCurrentDate);
 	 warpPrint("Year: %d \n", warpCurrentDate.year);
 
+	 uint16_t ADCVoltage;
 	 initADC();
-	 readADC();
-	 OSA_TimeDelay(1000);
-	 readADC();
-	 OSA_TimeDelay(1000);
-	 readADC();
+	 ADCVoltage = readADC();
+	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
+	 OSA_TimeDelay(500);
+	 ADCVoltage = readADC();
+	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
+	 OSA_TimeDelay(500);
+	 ADCVoltage = readADC();
+	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);

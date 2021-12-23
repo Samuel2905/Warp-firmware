@@ -43,7 +43,7 @@ void initADC(void) {
   MyChnConfig.intEnable = false;
 }
 
-void readADC(void) {
+uint16_t readADC(void) {
   // Trigger the conversion with indicated channel’s configuration. //
   ADC16_DRV_ConfigConvChn(instance, chnGroup, &MyChnConfig);
 
@@ -54,8 +54,9 @@ void readADC(void) {
   MyAdcValue = ADC16_DRV_GetConvValueRAW(instance, chnGroup);
   //warpPrint("ADC Hex Value: 0x%X\n", MyAdcValue);
   MyAdcDec = ADC16_DRV_ConvRAWData(MyAdcValue, false, kAdcResolutionBitOfSingleEndAs12);
-  warpPrint("ADC dec Value: %ld\n", MyAdcDec);
+  //warpPrint("ADC dec Value: %ld\n", MyAdcDec);
   ADCfloat = MyAdcDec * 2970 / 4095;
   MyAdcVol = (int)ADCfloat;
-  warpPrint("ADC Voltage: %ld mV\n", MyAdcVol);
+  //warpPrint("ADC Voltage: %ld mV\n", MyAdcVol);
+  return myAdcVol;
 }

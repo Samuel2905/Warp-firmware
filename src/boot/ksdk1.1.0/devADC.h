@@ -1,2 +1,2 @@
 void initADC(void);
-void readADC(void);
+uint16_t readADC(void);
