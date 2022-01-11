@@ -1626,6 +1626,17 @@ main(void)
 	 ADCVoltage = readADC();
 	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
 
+	 status = configureSensorBME680(	0b00000001,	/*	payloadCtrl_Hum: Humidity oversampling (OSRS) to 1x				*/
+	 				0b00100100,	/*	payloadCtrl_Meas: Temperature oversample 1x, pressure overdsample 1x, mode 00	*/
+	 				0b00001000	/*	payloadGas_0: Turn off heater							*/
+	 				);
+	 if (status != kWarpStatusOK)
+	 {
+					warpPrint("configureSensorBME680() failed...\n");
+	 }
+	 printSensorDataBME680()
+
+
 	#if (WARP_BUILD_ENABLE_DEVINA219)
  		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	/* I think specifying the voltage is unnecesary*/);
 		configureSensorINA219(0x399F /* Configuration register*/, 0x1000 /*Calibration Register*/);
