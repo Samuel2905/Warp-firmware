@@ -201,15 +201,15 @@ configureSensorBME680(uint8_t payloadCtrl_Hum, uint8_t payloadCtrl_Meas, uint8_t
 		warpPrint("Calib Data %u: %x\n", i, deviceBME680CalibrationValues[i] );
 	}
 
-	status = readSensorRegisterBME680(8A, 1 /* numberOfBytes */);
+	status = readSensorRegisterBME680(0x8A, 1 /* numberOfBytes */);
 	T2_lsb = deviceBME680State.i2cBuffer[0];
-	status = readSensorRegisterBME680(8B, 1 /* numberOfBytes */);
+	status = readSensorRegisterBME680(0x8B, 1 /* numberOfBytes */);
 	T2_msb = deviceBME680State.i2cBuffer[0];
-	status = readSensorRegisterBME680(8C, 1 /* numberOfBytes */);
+	status = readSensorRegisterBME680(0x8C, 1 /* numberOfBytes */);
 	T3_all = deviceBME680State.i2cBuffer[0];
-	status = readSensorRegisterBME680(E9, 1 /* numberOfBytes */);
+	status = readSensorRegisterBME680(0xE9, 1 /* numberOfBytes */);
 	T1_lsb = deviceBME680State.i2cBuffer[0];
-	status = readSensorRegisterBME680(EA, 1 /* numberOfBytes */);
+	status = readSensorRegisterBME680(0xEA, 1 /* numberOfBytes */);
 	T1_msb = deviceBME680State.i2cBuffer[0];
 
 	T1_all = ((T1_msb & 0xFF) << 8) | (T1_lsb);
