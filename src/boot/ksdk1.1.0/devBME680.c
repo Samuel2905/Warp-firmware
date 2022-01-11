@@ -166,7 +166,7 @@ configureSensorBME680(uint8_t payloadCtrl_Hum, uint8_t payloadCtrl_Meas, uint8_t
 	uint8_t		reg, index, i = 0;
 	uint8_t		T1_msb, T1_lsb, T2_msb, T2_lsb, T3_all;
 	int16_t	T1_all, T2_all;
-	WarpStatus	status1, status2, status3, status4 = 0;
+	WarpStatus	status1, status2, status3, status4, status_x = 0;
 
 
 	warpScaleSupplyVoltage(deviceBME680State.operatingVoltageMillivolts);
@@ -201,15 +201,15 @@ configureSensorBME680(uint8_t payloadCtrl_Hum, uint8_t payloadCtrl_Meas, uint8_t
 		warpPrint("Calib Data %u: %x\n", i, deviceBME680CalibrationValues[i] );
 	}
 
-	status = readSensorRegisterBME680(0x8A, 1 /* numberOfBytes */);
+	status_x = readSensorRegisterBME680(0x8A, 1 /* numberOfBytes */);
 	T2_lsb = deviceBME680State.i2cBuffer[0];
-	status = readSensorRegisterBME680(0x8B, 1 /* numberOfBytes */);
+	status_x = readSensorRegisterBME680(0x8B, 1 /* numberOfBytes */);
 	T2_msb = deviceBME680State.i2cBuffer[0];
-	status = readSensorRegisterBME680(0x8C, 1 /* numberOfBytes */);
+	status_x = readSensorRegisterBME680(0x8C, 1 /* numberOfBytes */);
 	T3_all = deviceBME680State.i2cBuffer[0];
-	status = readSensorRegisterBME680(0xE9, 1 /* numberOfBytes */);
+	status_x = readSensorRegisterBME680(0xE9, 1 /* numberOfBytes */);
 	T1_lsb = deviceBME680State.i2cBuffer[0];
-	status = readSensorRegisterBME680(0xEA, 1 /* numberOfBytes */);
+	status_x = readSensorRegisterBME680(0xEA, 1 /* numberOfBytes */);
 	T1_msb = deviceBME680State.i2cBuffer[0];
 
 	T1_all = ((T1_msb & 0xFF) << 8) | (T1_lsb);
