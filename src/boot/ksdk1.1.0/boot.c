@@ -1609,7 +1609,6 @@ main(void)
 	 *	Initialize all the sensors
 	 */
 
-	 devSSD1331init();
 	 initRelay();
 	 TurnOnRelay();
 	 rtc_datetime_t				warpCurrentDate;
