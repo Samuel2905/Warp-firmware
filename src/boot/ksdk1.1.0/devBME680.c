@@ -200,6 +200,16 @@ configureSensorBME680(uint8_t payloadCtrl_Hum, uint8_t payloadCtrl_Meas, uint8_t
 	for (i = 0; i < index; i++) {
 		warpPrint("Calib Data %u: %x\n", i, deviceBME680CalibrationValues[i] );
 	}
+	status_x = readSensorRegisterBME680(0x8A, 1 /* numberOfBytes */);
+	T2_lsb = deviceBME680State.i2cBuffer[0];
+	status_x = readSensorRegisterBME680(0x8B, 1 /* numberOfBytes */);
+	T2_msb = deviceBME680State.i2cBuffer[0];
+	status_x = readSensorRegisterBME680(0x8C, 1 /* numberOfBytes */);
+	T3_all = deviceBME680State.i2cBuffer[0];
+	status_x = readSensorRegisterBME680(0xE9, 1 /* numberOfBytes */);
+	T1_lsb = deviceBME680State.i2cBuffer[0];
+	status_x = readSensorRegisterBME680(0xEA, 1 /* numberOfBytes */);
+	T1_msb = deviceBME680State.i2cBuffer[0];
 	return (status1 | status2 | status3 | status4);
 }
 
