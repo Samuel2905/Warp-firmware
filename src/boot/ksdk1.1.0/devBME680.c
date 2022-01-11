@@ -195,7 +195,10 @@ configureSensorBME680(uint8_t payloadCtrl_Hum, uint8_t payloadCtrl_Meas, uint8_t
 		status4 |= readSensorRegisterBME680(reg, 1 /* numberOfBytes */);
 		deviceBME680CalibrationValues[index++] = deviceBME680State.i2cBuffer[0];
 	}
-	warpPrint("Calib Data: %u\n", deviceBME680CalibrationValues[0] );
+	for (i = 0; i < index; i++) {
+		warpPrint("Calib Data: %u\n", deviceBME680CalibrationValues[i] );
+	}
+	
 	return (status1 | status2 | status3 | status4);
 }
 

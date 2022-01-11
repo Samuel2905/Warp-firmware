@@ -1636,6 +1636,7 @@ main(void)
 					warpPrint("configureSensorBME680() failed...\n");
 	 }
 	 printSensorDataBME680(false);
+	 warpPrint("\n")
 
 
 	#if (WARP_BUILD_ENABLE_DEVINA219)
