@@ -1626,6 +1626,7 @@ main(void)
 	 ADCVoltage = readADC();
 	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
 
+	 initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
 	 status = configureSensorBME680(	0b00000001,	/*	payloadCtrl_Hum: Humidity oversampling (OSRS) to 1x				*/
 	 				0b00100100,	/*	payloadCtrl_Meas: Temperature oversample 1x, pressure overdsample 1x, mode 00	*/
 	 				0b00001000	/*	payloadGas_0: Turn off heater							*/
@@ -1686,7 +1687,7 @@ main(void)
 
 	#if (WARP_BUILD_ENABLE_DEVBME680)
 //		initBME680(	0x77	/* i2cAddress */,	&deviceBME680State,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
-		initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
+	//	initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
 	#endif
 
 	#if (WARP_BUILD_ENABLE_DEVTCS34725)
