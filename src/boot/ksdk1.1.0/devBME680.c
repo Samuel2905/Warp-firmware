@@ -210,6 +210,10 @@ configureSensorBME680(uint8_t payloadCtrl_Hum, uint8_t payloadCtrl_Meas, uint8_t
 	T1_lsb = deviceBME680State.i2cBuffer[0];
 	status_x = readSensorRegisterBME680(0xEA, 1 /* numberOfBytes */);
 	T1_msb = deviceBME680State.i2cBuffer[0];
+
+	T1_all = ((T1_msb & 0xFF) << 8) | (T1_lsb);
+	T2_all = ((T2_msb & 0xFF) << 8) | (T2_lsb);
+	
 	return (status1 | status2 | status3 | status4);
 }
 
