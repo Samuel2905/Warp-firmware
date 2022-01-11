@@ -136,7 +136,7 @@ typedef enum
 	kWarpSensorConfigurationRegisterBME680Ctrl_Gas_1		= 0x71,
 	kWarpSensorConfigurationRegisterBME680Ctrl_Gas_0		= 0x70,
 
-	kWarpSensorConfigurationRegisterBME680CalibrationRegion1Start	= 0x89,
+	kWarpSensorConfigurationRegisterBME680CalibrationRegion1Start	= 0x8A,
 	kWarpSensorConfigurationRegisterBME680CalibrationRegion1End	= 0xA2,
 	kWarpSensorConfigurationRegisterBME680CalibrationRegion2Start	= 0xE1,
 	kWarpSensorConfigurationRegisterBME680CalibrationRegion2End	= 0xF2,
