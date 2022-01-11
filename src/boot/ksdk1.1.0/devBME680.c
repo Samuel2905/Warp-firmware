@@ -213,7 +213,11 @@ configureSensorBME680(uint8_t payloadCtrl_Hum, uint8_t payloadCtrl_Meas, uint8_t
 
 	T1_all = ((T1_msb & 0xFF) << 8) | (T1_lsb);
 	T2_all = ((T2_msb & 0xFF) << 8) | (T2_lsb);
-	
+
+	warpPrint("T1: %d\n", T1_all);
+	warpPrint("T2: %d\n", T2_all);
+	warpPrint("T3: %u\n", T3_all);
+
 	return (status1 | status2 | status3 | status4);
 }
 
