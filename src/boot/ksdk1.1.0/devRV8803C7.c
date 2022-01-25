@@ -257,7 +257,7 @@ bcd2bin(uint8_t bcd)
 	d = bcd;
 	bin = 0;
 
-	for (uint8_t n = 1; n<11; *=10)
+	for (uint8_t n = 1; n<11; n*=10)
 	{
 		r = d % 16;
 		d /= 16;
