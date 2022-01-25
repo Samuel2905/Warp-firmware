@@ -1777,7 +1777,7 @@ main(void)
 	else
 	{
 		warpPrint("kWarpRV8803RegSec = [0x%X]\n", tmpRV8803RegisterByte);
-		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803Register);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
 		warpPrint("kWarpRV8803RegSec = [0x%d]\n", conv_tmpRV8803RegisterByte);
 	}
 
@@ -1789,7 +1789,7 @@ main(void)
 	else
 	{
 		warpPrint("kWarpRV8803RegMin = [0x%X]\n", tmpRV8803RegisterByte);
-		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803Register);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
 		warpPrint("kWarpRV8803RegMin = [0x%d]\n", conv_tmpRV8803RegisterByte);
 	}
 
