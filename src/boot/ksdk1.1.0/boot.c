@@ -1758,6 +1758,8 @@ main(void)
 		}
 	#endif
 
+	setRTCTimeRV8803C7(warpCurrentDate);
+
 	uint8_t	tmpRV8803RegisterByte;
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
 	if (status != kWarpStatusOK)
