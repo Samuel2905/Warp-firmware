@@ -298,7 +298,7 @@ setRTCTimeRV8803C7(rtc_datetime_t *tm)
 				1 << weekday,
 				bin2bcd(tm->day),
 				bin2bcd(tm->month),
-				bin2bcd(tm->year - 100)
+				bin2bcd(tm->year - 108)
 	};
 
 	ret = writeRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, date);
