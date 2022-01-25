@@ -1789,35 +1789,46 @@ main(void)
 		warpPrint("kWarpRV8803RegHour = [0x%X]\n", tmpRV8803RegisterByte);
 	}
 
-	status = readRTCRegisterRV8803C7(kWarpRV8803RegExt, &tmpRV8803RegisterByte);
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegWeekday, &tmpRV8803RegisterByte);
 	if (status != kWarpStatusOK)
 	{
-		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegExt, &tmpRV8803RegisterByte) failed\n");
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegWeekday, &tmpRV8803RegisterByte) failed\n");
 	}
 	else
 	{
-		warpPrint("kWarpRV8803RegExt = [0x%X]\n", tmpRV8803RegisterByte);
+		warpPrint("kWarpRV8803RegWeekday = [0x%X]\n", tmpRV8803RegisterByte);
 	}
 
-	status = readRTCRegisterRV8803C7(kWarpRV8803RegFlag, &tmpRV8803RegisterByte);
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegDate, &tmpRV8803RegisterByte);
 	if (status != kWarpStatusOK)
 	{
-		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegFlag, &tmpRV8803RegisterByte) failed\n");
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegDate, &tmpRV8803RegisterByte) failed\n");
 	}
 	else
 	{
-		warpPrint("kWarpRV8803RegFlag = [0x%X]\n", tmpRV8803RegisterByte);
+		warpPrint("kWarpRV8803RegDate = [0x%X]\n", tmpRV8803RegisterByte);
 	}
 
-	status = readRTCRegisterRV8803C7(kWarpRV8803RegCtrl, &tmpRV8803RegisterByte);
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegMonth, &tmpRV8803RegisterByte);
 	if (status != kWarpStatusOK)
 	{
-		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegCtrl, &tmpRV8803RegisterByte) failed\n");
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegMonth, &tmpRV8803RegisterByte) failed\n");
 	}
 	else
 	{
-		warpPrint("kWarpRV8803RegCtrl = [0x%X]\n", tmpRV8803RegisterByte);
+		warpPrint("kWarpRV8803RegMonth = [0x%X]\n", tmpRV8803RegisterByte);
 	}
+
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegYear, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegYear, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegYear = [0x%X]\n", tmpRV8803RegisterByte);
+	}
+
 
 	/*
 	 *	Initialization: Devices hanging off SPI
