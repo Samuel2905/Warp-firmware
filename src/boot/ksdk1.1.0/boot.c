@@ -1761,9 +1761,9 @@ main(void)
 	rtc_datetime_t				warpRTC;
 	warpRTC.year	= 2022U;
 	warpRTC.month	= 1U;
-	warpRTC.day	= 25U;
-	warpRTC.hour	= 22U;
-	warpRTC.minute	= 55U;
+	warpRTC.day	= 26U;
+	warpRTC.hour	= 00U;
+	warpRTC.minute	= 5U;
 	warpRTC.second	= 00U;
 	setRTCTimeRV8803C7(&warpRTC);
 
