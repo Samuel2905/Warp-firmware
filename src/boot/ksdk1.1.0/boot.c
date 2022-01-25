@@ -1759,12 +1759,12 @@ main(void)
 	#endif
 
 	rtc_datetime_t				warpRTC;
-	warpRTC.year	= 2022U;
-	warpRTC.month	= 1U;
-	warpRTC.day	= 25U;
-	warpRTC.hour	= 2U;
+	warpRTC.year	= 2000U;
+	warpRTC.month	= 12U;
+	warpRTC.day	= 31U;
+	warpRTC.hour	= 22U;
 	warpRTC.minute	= 20U;
-	warpRTC.second	= 0U;
+	warpRTC.second	= 45U;
 	setRTCTimeRV8803C7(&warpRTC);
 
 	uint8_t	tmpRV8803RegisterByte;
