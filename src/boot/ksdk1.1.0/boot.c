@@ -1762,12 +1762,13 @@ main(void)
 	warpRTC.year	= 2022U;
 	warpRTC.month	= 1U;
 	warpRTC.day	= 25U;
-	warpRTC.hour	= 2U;
-	warpRTC.minute	= 34U;
+	warpRTC.hour	= 22U;
+	warpRTC.minute	= 55U;
 	warpRTC.second	= 00U;
 	setRTCTimeRV8803C7(&warpRTC);
 
 	uint8_t	tmpRV8803RegisterByte;
+	uint8_t conv_tmpRV8803RegisterByte;
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
 	if (status != kWarpStatusOK)
 	{
@@ -1776,6 +1777,8 @@ main(void)
 	else
 	{
 		warpPrint("kWarpRV8803RegSec = [0x%X]\n", tmpRV8803RegisterByte);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803Register);
+		warpPrint("kWarpRV8803RegSec = [0x%d]\n", conv_tmpRV8803RegisterByte);
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegMin, &tmpRV8803RegisterByte);
@@ -1786,6 +1789,8 @@ main(void)
 	else
 	{
 		warpPrint("kWarpRV8803RegMin = [0x%X]\n", tmpRV8803RegisterByte);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803Register);
+		warpPrint("kWarpRV8803RegMin = [0x%d]\n", conv_tmpRV8803RegisterByte);
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegHour, &tmpRV8803RegisterByte);

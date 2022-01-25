@@ -247,6 +247,26 @@ bin2bcd(uint8_t bin)
 }
 
 uint8_t
+
+bcd2bin(uint8_t bcd)
+{
+	/*
+	 *	Convert a int to bcd format
+	 */
+	uint8_t		r, d, bin;
+	d = bcd;
+	bin = 0;
+
+	for (uint8_t n = 1; n<11; *=10)
+	{
+		r = d % 16;
+		d /= 16;
+		bin += r * n;
+	}
+	return bin;
+}
+
+uint8_t
 date2weekday(uint8_t day, uint8_t month, uint8_t year)
 {
 	/*
