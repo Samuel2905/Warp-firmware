@@ -1758,6 +1758,67 @@ main(void)
 		}
 	#endif
 
+	uint8_t	tmpRV8803RegisterByte;
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegSec = [0x%X]\n", tmpRV8803RegisterByte);
+	}
+
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegMin, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegMin, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegMin = [0x%X]\n", tmpRV8803RegisterByte);
+	}
+
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegHour, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegHour, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegHour = [0x%X]\n", tmpRV8803RegisterByte);
+	}
+
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegExt, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegExt, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegExt = [0x%X]\n", tmpRV8803RegisterByte);
+	}
+
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegFlag, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegFlag, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegFlag = [0x%X]\n", tmpRV8803RegisterByte);
+	}
+
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegCtrl, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegCtrl, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegCtrl = [0x%X]\n", tmpRV8803RegisterByte);
+	}
+
 	/*
 	 *	Initialization: Devices hanging off SPI
 	 */
