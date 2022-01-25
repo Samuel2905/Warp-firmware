@@ -1758,7 +1758,14 @@ main(void)
 		}
 	#endif
 
-	setRTCTimeRV8803C7(&warpCurrentDate);
+	rtc_datetime_t				warpRTC;
+	warpRTC.year	= 2022U;
+	warpRTC.month	= 1U;
+	warpRTC.day	= 25U;
+	warpRTC.hour	= 2U;
+	warpRTC.minute	= 20U;
+	warpRTC.second	= 0U;
+	setRTCTimeRV8803C7(&warpRTC);
 
 	uint8_t	tmpRV8803RegisterByte;
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
