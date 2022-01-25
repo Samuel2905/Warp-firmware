@@ -247,7 +247,6 @@ bin2bcd(uint8_t bin)
 }
 
 uint8_t
-
 bcd2bin(uint8_t bcd)
 {
 	/*

@@ -1778,7 +1778,7 @@ main(void)
 	{
 		warpPrint("kWarpRV8803RegSec = [0x%X]\n", tmpRV8803RegisterByte);
 		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
-		warpPrint("kWarpRV8803RegSec = [0x%d]\n", conv_tmpRV8803RegisterByte);
+		warpPrint("Second: %d\n", conv_tmpRV8803RegisterByte);
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegMin, &tmpRV8803RegisterByte);
@@ -1790,7 +1790,7 @@ main(void)
 	{
 		warpPrint("kWarpRV8803RegMin = [0x%X]\n", tmpRV8803RegisterByte);
 		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
-		warpPrint("kWarpRV8803RegMin = [0x%d]\n", conv_tmpRV8803RegisterByte);
+		warpPrint("Minute : %d\n", conv_tmpRV8803RegisterByte);
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegHour, &tmpRV8803RegisterByte);
@@ -1801,6 +1801,8 @@ main(void)
 	else
 	{
 		warpPrint("kWarpRV8803RegHour = [0x%X]\n", tmpRV8803RegisterByte);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
+		warpPrint("Hour: %d\n", conv_tmpRV8803RegisterByte);
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegWeekday, &tmpRV8803RegisterByte);
@@ -1821,6 +1823,8 @@ main(void)
 	else
 	{
 		warpPrint("kWarpRV8803RegDate = [0x%X]\n", tmpRV8803RegisterByte);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
+		warpPrint("Date %d\n", conv_tmpRV8803RegisterByte);
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegMonth, &tmpRV8803RegisterByte);
@@ -1831,6 +1835,8 @@ main(void)
 	else
 	{
 		warpPrint("kWarpRV8803RegMonth = [0x%X]\n", tmpRV8803RegisterByte);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
+		warpPrint("Month %d\n", conv_tmpRV8803RegisterByte);
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegYear, &tmpRV8803RegisterByte);
@@ -1841,6 +1847,8 @@ main(void)
 	else
 	{
 		warpPrint("kWarpRV8803RegYear = [0x%X]\n", tmpRV8803RegisterByte);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
+		warpPrint("Year: %d\n", conv_tmpRV8803RegisterByte);
 	}
 
 
