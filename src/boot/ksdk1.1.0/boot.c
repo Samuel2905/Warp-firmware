@@ -1765,7 +1765,7 @@ main(void)
 	warpRTC.hour	= 00U;
 	warpRTC.minute	= 5U;
 	warpRTC.second	= 00U;
-	setRTCTimeRV8803C7(&warpRTC);
+	// setRTCTimeRV8803C7(&warpRTC);
 
 	uint8_t	tmpRV8803RegisterByte;
 	uint8_t conv_tmpRV8803RegisterByte;
