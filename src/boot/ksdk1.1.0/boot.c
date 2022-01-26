@@ -1757,16 +1757,16 @@ main(void)
 			warpPrint("writeRTCRegisterRV8803C7() succeeded.\n");
 		}
 	#endif
-	/*
+
 	rtc_datetime_t				warpRTC;
 	warpRTC.year	= 2022U;
 	warpRTC.month	= 1U;
 	warpRTC.day	= 26U;
-	warpRTC.hour	= 00U;
-	warpRTC.minute	= 5U;
+	warpRTC.hour	= 02U;
+	warpRTC.minute	= 25U;
 	warpRTC.second	= 00U;
 	setRTCTimeRV8803C7(&warpRTC);
-	*/
+
 	uint8_t	tmpRV8803RegisterByte;
 	uint8_t conv_tmpRV8803RegisterByte;
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
