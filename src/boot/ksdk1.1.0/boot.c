@@ -1851,6 +1851,18 @@ main(void)
 		warpPrint("Year: %d\n", conv_tmpRV8803RegisterByte);
 	}
 
+	OSA_TimeDelay(5000)
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegSec = [0x%X]\n", tmpRV8803RegisterByte);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
+		warpPrint("Second: %d\n", conv_tmpRV8803RegisterByte);
+	}
 
 	/*
 	 *	Initialization: Devices hanging off SPI
