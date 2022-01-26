@@ -1864,6 +1864,16 @@ main(void)
 		warpPrint("Second: %d\n", conv_tmpRV8803RegisterByte);
 	}
 
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegCtrl, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegCtrl, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegCtrl = [0x%X]\n", tmpRV8803RegisterByte);
+	}
+
 	/*
 	 *	Initialization: Devices hanging off SPI
 	 */

@@ -330,6 +330,7 @@ setRTCTimeRV8803C7(rtc_datetime_t *tm)
 	 *	Restart the clock
 	 */
 	ctrl &= kWarpRV8803CtrlRESET;
+	//ctrl = 0b00000001
 	ret = writeRTCRegisterRV8803C7(kWarpRV8803RegCtrl, ctrl);
 	if (ret)
 	{
