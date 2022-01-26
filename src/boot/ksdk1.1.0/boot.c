@@ -1763,7 +1763,7 @@ main(void)
 	warpRTC.month	= 1U;
 	warpRTC.day	= 26U;
 	warpRTC.hour	= 02U;
-	warpRTC.minute	= 25U;
+	warpRTC.minute	= 32U;
 	warpRTC.second	= 00U;
 	setRTCTimeRV8803C7(&warpRTC);
 
