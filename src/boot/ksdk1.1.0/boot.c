@@ -1851,7 +1851,7 @@ main(void)
 		warpPrint("Year: %d\n", conv_tmpRV8803RegisterByte);
 	}
 
-	OSA_TimeDelay(5000)
+	OSA_TimeDelay(5000);
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
 	if (status != kWarpStatusOK)
 	{
