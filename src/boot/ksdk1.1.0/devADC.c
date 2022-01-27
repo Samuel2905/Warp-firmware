@@ -70,6 +70,7 @@ uint16_t Voltage_ADC(uint16_t raw) {
 }
 
 uint16_t level(void) {
+  ADC_Val = 0;
 	for (uint8_t n = 0; n<reps; n+=1)
 	{
 		ADC_Val += readADC();
