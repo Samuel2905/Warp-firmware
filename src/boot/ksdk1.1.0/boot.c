@@ -1412,7 +1412,8 @@ main(void)
 	*/
 	uint8_t	tmpRV8803RegisterByte;
 	uint8_t	conv_tmpRV8803RegisterByte;
-	uint8_t date[7];
+	uint8_t bcd_dates[7];
+	uint8_t conv_dates[7];
 	/*
 	uint8_t Second;
 	uint8_t Minute;
@@ -1421,14 +1422,23 @@ main(void)
 	uint8_t Month;
 	uint8_t Year;
 	*/
-	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &date);
+	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &bcd_dates);
 	if (status != kWarpStatusOK)
 	{
 		warpPrint("readRTCRegistersRV8803C7(kWarpRV8803RegSec, &date) failed\n");
 	}
 	else
 	{
-		warpPrint("kWarpRV8803RegSec = [0x%X]\n", date[0]);
+		warpPrint("kWarpRV8803RegSec = [0x%X]\n", bcd_dates[0]);
+		warpPrint("kWarpRV8803RegMin = [0x%X]\n", bcd_dates[1]);
+		warpPrint("kWarpRV8803RegHour = [0x%X]\n", bcd_dates[2]);
+		warpPrint("kWarpRV8803RegWeekday = [0x%X]\n", bcd_dates[3]);
+		warpPrint("kWarpRV8803RegDate = [0x%X]\n", bcd_dates[4]);
+		warpPrint("kWarpRV8803RegMonth = [0x%X]\n", bcd_dates[5]);
+		warpPrint("kWarpRV8803RegYear = [0x%X]\n", bcd_dates[6]);
+		conv_dates = RegisterstoDecimal(bcd_dates);
+		warpPrint("Second: %d\n", bcd_dates[0]);
+
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);

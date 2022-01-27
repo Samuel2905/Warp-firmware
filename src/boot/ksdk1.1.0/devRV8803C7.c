@@ -447,3 +447,18 @@ setRTCCountdownRV8803C7(uint16_t countdown, WarpRV8803ExtTD clk_freq, bool inter
 
 	return ret;
 }
+
+uint8_t
+RegisterstoDecimal(uint8_t bcds[])
+{
+	// assuming first 7 registers are read, converts bcd values to bin
+	uint8_t conv[7];
+	for (uint8_t n = 0; n<7; n+=1)
+	{
+		if (n != 3) // don't convert weekday
+		{
+			conv[n] = bcd2bin(bcds[n]);
+		}
+	}
+	return conv;
+}
