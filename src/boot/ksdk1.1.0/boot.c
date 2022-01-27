@@ -1340,6 +1340,12 @@ main(void)
 	 initADC();
 	 ADCVoltage = readADC();
 	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
+	 OSA_TimeDelay(500);
+	 ADCVoltage = readADC();
+	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
+	 OSA_TimeDelay(500);
+	 ADCVoltage = readADC();
+	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
 
 	 initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
 	 status = configureSensorBME680(	0b00000001,	/*	payloadCtrl_Hum: Humidity oversampling (OSRS) to 1x				*/
@@ -1352,6 +1358,12 @@ main(void)
 	 }
 	 printSensorDataBME680(false);
 	 warpPrint("\n");
+
+
+	#if (WARP_BUILD_ENABLE_DEVBME680)
+//		initBME680(	0x77	/* i2cAddress */,	&deviceBME680State,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
+	//	initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
+	#endif
 
 	#if (WARP_BUILD_ENABLE_DEVRV8803C7)
 		initRV8803C7(	0x32	/* i2cAddress */,					kWarpDefaultSupplyVoltageMillivoltsRV8803C7	);
@@ -1489,6 +1501,19 @@ main(void)
 		warpPrint("Year: %d\n", conv_tmpRV8803RegisterByte);
 	}
 
+	OSA_TimeDelay(5000);
+	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegSec = [0x%X]\n", tmpRV8803RegisterByte);
+		conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
+		warpPrint("Second: %d\n", conv_tmpRV8803RegisterByte);
+	}
+
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegCtrl, &tmpRV8803RegisterByte);
 	if (status != kWarpStatusOK)
 	{
@@ -1509,7 +1534,6 @@ main(void)
 
 	while (1)
 	{
-		// Main loop code here
 		status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
 		if (status != kWarpStatusOK)
 		{
@@ -1517,6 +1541,7 @@ main(void)
 		}
 		else
 		{
+			warpPrint("kWarpRV8803RegSec = [0x%X]\n", tmpRV8803RegisterByte);
 			conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
 			warpPrint("Second: %d\n", conv_tmpRV8803RegisterByte);
 		}
