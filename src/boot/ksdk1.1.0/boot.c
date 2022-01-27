@@ -1335,7 +1335,7 @@ main(void)
 	bool pumped = false;
 
 	// Set the level below which the pump turns on (mm)
-	uint16_t theshold = 200;
+	uint16_t threshold = 200;
 
 	/*
 
@@ -1462,7 +1462,7 @@ main(void)
 		// Add temperature measurement
 
 		// If water level is below the threshold, the time is between 0 and the pump hasn't already been on tonight, turn the pump on
-		if (Water_level < threshold and 0 <= conv_dates[2] and conv_dates[2] < 10 and pumped == false)
+		if ((Water_level < threshold) && (0 <= conv_dates[2]) && (conv_dates[2] < 10) && (pumped == false))
 		{
 			TurnOnRelay();
 			pump = true;
@@ -1480,7 +1480,7 @@ main(void)
     	}
 			pump = false;
 		}
-		if (now.hour() == 12)
+		if (conv_dates[2] == 12)
 		{
 			pumped = false;
 		}
