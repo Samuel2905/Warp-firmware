@@ -1436,10 +1436,14 @@ main(void)
 		warpPrint("kWarpRV8803RegDate = [0x%X]\n", bcd_dates[4]);
 		warpPrint("kWarpRV8803RegMonth = [0x%X]\n", bcd_dates[5]);
 		warpPrint("kWarpRV8803RegYear = [0x%X]\n", bcd_dates[6]);
-		// conv_dates = RegisterstoDecimal(bcd_dates);
-		conv_dates[0] = bcd2bin(bcd_dates[0]);
-		warpPrint("Second: %d\n", conv_dates[0]);
-
+		for (uint8_t n = 0; n<7; n+=1)
+		{
+			if (n != 3) // don't convert weekday
+			{
+				conv_dates[n] = bcd2bin(bcd_dates[n]);
+			}
+		}
+		warpPrint("%d:%d:%d %d/%d/%d\n", conv_dates[2], conv_dates[1], conv_dates[0], conv_dates[4], conv_dates[5], conv_dates[6]);
 	}
 
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
