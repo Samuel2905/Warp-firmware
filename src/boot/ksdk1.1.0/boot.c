@@ -1468,7 +1468,7 @@ main(void)
 		- Pump hasn't already been on tonight (to prevent pump repeatedly turning on and off)
 		- Temperature is above 3 degrees (to prevent pump turning on when it might be frozen)
 		*/
-		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 24) && (pumped == false) %% (raw_temp > 459952))
+		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 24) && (pumped == false) && (raw_temp > 459952))
 		{
 			TurnOnRelay();
 			pump = true;
