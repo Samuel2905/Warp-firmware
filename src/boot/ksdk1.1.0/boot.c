@@ -1341,8 +1341,6 @@ main(void)
 	 initADC();
 	 ADCVoltage = readADC();
 	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
-	 uint8_t reps = 2;
-	 uint16_t Voltage = 0;
 	 water = level();
 	 warpPrint("Water Level: %d mV\n", water);
 	 initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
@@ -1527,16 +1525,6 @@ main(void)
 		OSA_TimeDelay(1000);
 	}
 	return 0;
-}
-
-uint16_t level(void)
-{
-	for (uint8_t n = 0; n<2; n+=1)
-	{
-		Voltage += readADC();
-	}
-	Voltage /= reps;
-	return Voltage;
 }
 
 void

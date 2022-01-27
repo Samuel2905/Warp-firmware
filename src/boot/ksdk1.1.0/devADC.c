@@ -29,6 +29,8 @@ uint32_t i;
 uint32_t instance = 0;
 uint32_t chnGroup = 0;
 uint8_t chn = 8;        //PTB1 is ADC0_SE8
+uint8_t reps = 2;
+uint16_t Voltage = 0;
 
 void initADC(void) {
   // PORT_HAL_SetMuxMode(PORTB_BASE, 1u, kPortMuxAlt0);
@@ -59,4 +61,14 @@ uint16_t readADC(void) {
   MyAdcVol = (int)ADCfloat;
   //warpPrint("ADC Voltage: %ld mV\n", MyAdcVol);
   return MyAdcVol;
+}
+
+uint16_t level(void) {
+	for (uint8_t n = 0; n<reps; n+=1)
+	{
+		Voltage += readADC();
+    OSA_TimeDelay(500)
+	}
+	Voltage /= reps;
+	return Voltage;
 }
