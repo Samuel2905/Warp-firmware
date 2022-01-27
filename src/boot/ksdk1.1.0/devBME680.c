@@ -234,12 +234,13 @@ uint32_t
 printSensorDataBME680(bool hexModeFlag)
 {
 	// Function modified to return the raw temperature
+	// And not print anything
 
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
 	uint16_t	readSensorRegisterValueXLSB;
 	uint32_t	unsignedRawAdcValue;
-	uint32_t	raw_temperature;
+	uint32_t	raw_temperature = 0;
 	WarpStatus	triggerStatus, i2cReadStatusMSB, i2cReadStatusLSB, i2cReadStatusXLSB;
 
 
@@ -274,7 +275,7 @@ printSensorDataBME680(bool hexModeFlag)
 		}
 		else
 		{
-			warpPrint(" %u,", unsignedRawAdcValue);
+			// warpPrint(" %u,", unsignedRawAdcValue);
 		}
 	}
 
@@ -300,7 +301,7 @@ printSensorDataBME680(bool hexModeFlag)
 		}
 		else
 		{
-			warpPrint(" %u,", unsignedRawAdcValue);
+			// warpPrint(" %u,", unsignedRawAdcValue);
 			raw_temperature = unsignedRawAdcValue;
 		}
 	}
@@ -322,7 +323,7 @@ printSensorDataBME680(bool hexModeFlag)
 		}
 		else
 		{
-			warpPrint(" %u,", unsignedRawAdcValue);
+			// warpPrint(" %u,", unsignedRawAdcValue);
 		}
 	}
 	return raw_temperature;

@@ -1452,14 +1452,23 @@ main(void)
 		else
 		{
 			now = RegistersToBin(bcd_dates);
-			warpPrint("Water Level: %dmm  ", Water_level);
 			warpPrint("%d:%d:%d %d/%d/%d  ", now.hour, now.minute, now.second, now.day, now.month, now.year);
+			warpPrint("Water Level: %dmm  ", Water_level);
 		}
 
-		// Add temperature measurement
+		// Read Temperature
+		// add attempted conversion to degrees
+		raw_temp = printSensorDataBME680(false);
+ 	 	warpPrint("Temp: %u", raw_temp);
 
-		// If water level is below the threshold, the time is between 0 and the pump hasn't already been on tonight, turn the pump on
-		if ((Water_level < threshold) && (0 <= conv_dates[2]) && (conv_dates[2] < 24) && (pumped == false))
+		/*
+		Turn Pump on if:
+		- Water level is below the threshold level
+		- Time is between 0am and 10am (so pump only turns on at night)
+		- Pump hasn't already been on tonight (to prevent pump repeatedly turning on and off)
+		- Temperature is above 3 degrees (to prevent pump turning on when it might be frozen)
+		*/
+		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 24) && (pumped == false) %% (raw_temp > 459952))
 		{
 			TurnOnRelay();
 			pump = true;
