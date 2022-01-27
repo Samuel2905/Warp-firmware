@@ -1489,7 +1489,7 @@ main(void)
     	}
 			pump = false;
 		}
-		if (conv_dates[2] == 12)
+		if (now.hour == 12)
 		{
 			pumped = false;
 		}
