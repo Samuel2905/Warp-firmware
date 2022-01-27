@@ -1327,6 +1327,7 @@ main(void)
 	warpPrint("done.\n");
 
 	// Variable for main program loop
+	rtc_datetime_t	now;
 	uint16_t ADCDec, ADCVolt;
 	uint16_t Water_level;
 	uint8_t bcd_dates[7];
@@ -1455,8 +1456,14 @@ main(void)
 					// create an rtc_datetime_t object from these?
 				}
 			}
+			now.year	= conv_dates[6];
+			now.month	= conv_dates[5];
+			now.day	= conv_dates[4];
+			now.hour	= conv_dates[2];
+			now.minute	= conv_dates[1];
+			now.second	= conv_dates[0];
 			warpPrint("Water Level: %dmm  ", Water_level);
-			warpPrint("%d:%d:%d %d/%d/%d  ", conv_dates[2], conv_dates[1], conv_dates[0], conv_dates[4], conv_dates[5], conv_dates[6]);
+			warpPrint("%d:%d:%d %d/%d/%d  ", now.hour, now.minute, now.second, now.day, now.month, now.year);
 		}
 
 		// Add temperature measurement
