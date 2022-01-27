@@ -1436,8 +1436,9 @@ main(void)
 		warpPrint("kWarpRV8803RegDate = [0x%X]\n", bcd_dates[4]);
 		warpPrint("kWarpRV8803RegMonth = [0x%X]\n", bcd_dates[5]);
 		warpPrint("kWarpRV8803RegYear = [0x%X]\n", bcd_dates[6]);
-		conv_dates = RegisterstoDecimal(bcd_dates);
-		warpPrint("Second: %d\n", bcd_dates[0]);
+		// conv_dates = RegisterstoDecimal(bcd_dates);
+		conv_dates[0] = bcd2bin(bcd_dates[0])
+		warpPrint("Second: %d\n", conv_dates[0]);
 
 	}
 
