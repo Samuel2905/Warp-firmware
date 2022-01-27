@@ -1337,16 +1337,12 @@ main(void)
 	 warpPrint("Year: %d \n", warpCurrentDate.year);
 
 	 uint16_t ADCVoltage;
+	 uint16_t water;
 	 initADC();
 	 ADCVoltage = readADC();
 	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
-	 OSA_TimeDelay(500);
-	 ADCVoltage = readADC();
-	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
-	 OSA_TimeDelay(500);
-	 ADCVoltage = readADC();
-	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
-
+	 water = level();
+	 warpPrint("Water Level: %d mV\n", water);
 	 initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
 	 status = configureSensorBME680(	0b00000001,	/*	payloadCtrl_Hum: Humidity oversampling (OSRS) to 1x				*/
 	 				0b00100100,	/*	payloadCtrl_Meas: Temperature oversample 1x, pressure overdsample 1x, mode 00	*/
@@ -1531,7 +1527,18 @@ main(void)
 	return 0;
 }
 
-
+uint16_t
+level(void)
+{
+	uint8_t reps = 2;
+	uint16_t ADCVoltage = 0;
+	for (uint8_t n = 0; n<2; n+=1)
+	{
+		ADCVoltage += readADC();
+	}
+	ADCVoltage /= reps;
+	return ADCVoltage;
+}
 
 void
 printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelayBetweenEachRun, bool loopForever)
