@@ -41,4 +41,4 @@ WarpStatus	configureSensorBME680(	uint8_t payloadCtrl_Hum,
 					uint8_t payloadCtrl_Meas,
 					uint8_t payloadGas_0);
 WarpStatus	readSensorRegisterBME680(uint8_t deviceRegister, int numberOfBytes);
-void		printSensorDataBME680(bool hexModeFlag);
+uint32_t		printSensorDataBME680(bool hexModeFlag);

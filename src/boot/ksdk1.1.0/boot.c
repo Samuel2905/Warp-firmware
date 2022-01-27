@@ -1330,10 +1330,12 @@ main(void)
 	rtc_datetime_t	now;
 	uint16_t ADCDec, ADCVolt;
 	uint16_t Water_level;
+	uint32_t	raw_temp;
 	uint8_t bcd_dates[7];
 	uint8_t conv_dates[7];
 	bool pump = false;
 	bool pumped = false;
+
 
 	// Set the level below which the pump turns on (mm)
 	uint16_t threshold = 200;
@@ -1368,7 +1370,8 @@ main(void)
 	 {
 					warpPrint("configureSensorBME680() failed...\n");
 	 }
-	 printSensorDataBME680(false);
+	 raw_temp = printSensorDataBME680(false);
+	 warpPrint("raw_temperature: %u\n", raw_temp)
 	 warpPrint("\n");
 
 	 // Initialise RV8803C7 external RTC and check it's working
@@ -1448,22 +1451,6 @@ main(void)
 		}
 		else
 		{
-			/*
-			for (uint8_t n = 0; n<7; n+=1)
-			{
-				if (n != 3) // don't convert weekday
-				{
-					conv_dates[n] = bcd2bin(bcd_dates[n]);
-					// create an rtc_datetime_t object from these?
-				}
-			}
-			now.year	= conv_dates[6];
-			now.month	= conv_dates[5];
-			now.day	= conv_dates[4];
-			now.hour	= conv_dates[2];
-			now.minute	= conv_dates[1];
-			now.second	= conv_dates[0];
-			*/
 			now = RegistersToBin(bcd_dates);
 			warpPrint("Water Level: %dmm  ", Water_level);
 			warpPrint("%d:%d:%d %d/%d/%d  ", now.hour, now.minute, now.second, now.day, now.month, now.year);
