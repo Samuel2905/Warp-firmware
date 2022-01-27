@@ -1563,14 +1563,9 @@ main(void)
 		warpPrint("\r- 't': dump processor state.\n");
 		warpPrint("\r- 'u': set I2C address.\n");
 
-		#if (WARP_BUILD_ENABLE_DEVAT45DB)
-			warpPrint("\r- 'R': read bytes from Flash.\n");
-			warpPrint("\r- 'F': write bytes to Flash.\n");
-		#endif
 
-		#if (WARP_BUILD_ENABLE_DEVICE40)
-			warpPrint("\r- 'P': write bytes to FPGA configuration.\n");
-		#endif
+
+
 
 		#if (WARP_BUILD_ENABLE_DEVRV8803C7)
 			warpPrint("\r- 'v': Enter VLLS0 low-power mode for 3s, then reset\n");
@@ -1591,104 +1586,10 @@ main(void)
 			{
 				warpPrint("\r\tSelect:\n");
 
-				#if (WARP_BUILD_ENABLE_DEVADXL362)
-					warpPrint("\r\t- '1' ADXL362			(0x00--0x2D): 1.6V -- 3.5V\n");
-				#else
-					warpPrint("\r\t- '1' ADXL362			(0x00--0x2D): 1.6V -- 3.5V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVBMX055)
-					warpPrint("\r\t- '2' BMX055accel		(0x00--0x3F): 2.4V -- 3.6V\n");
-					warpPrint("\r\t- '3' BMX055gyro		(0x00--0x3F): 2.4V -- 3.6V\n");
-					warpPrint("\r\t- '4' BMX055mag			(0x40--0x52): 2.4V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- '2' BMX055accel 		(0x00--0x3F): 2.4V -- 3.6V (compiled out) \n");
-					warpPrint("\r\t- '3' BMX055gyro			(0x00--0x3F): 2.4V -- 3.6V (compiled out) \n");
-					warpPrint("\r\t- '4' BMX055mag			(0x40--0x52): 2.4V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVMMA8451Q)
-					warpPrint("\r\t- '5' MMA8451Q			(0x00--0x31): 1.95V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- '5' MMA8451Q			(0x00--0x31): 1.95V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVLPS25H)
-					warpPrint("\r\t- '6' LPS25H			(0x08--0x24): 1.7V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- '6' LPS25H			(0x08--0x24): 1.7V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVMAG3110)
-					warpPrint("\r\t- '7' MAG3110			(0x00--0x11): 1.95V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- '7' MAG3110			(0x00--0x11): 1.95V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVHDC1000)
-					warpPrint("\r\t- '8' HDC1000			(0x00--0x1F): 3.0V -- 5.0V\n");
-				#else
-					warpPrint("\r\t- '8' HDC1000			(0x00--0x1F): 3.0V -- 5.0V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVSI7021)
-					warpPrint("\r\t- '9' SI7021			(0x00--0x0F): 1.9V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- '9' SI7021			(0x00--0x0F): 1.9V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVL3GD20H)
-					warpPrint("\r\t- 'a' L3GD20H			(0x0F--0x39): 2.2V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- 'a' L3GD20H			(0x0F--0x39): 2.2V -- 3.6V (compiled out) \n");
-				#endif
-
 				#if (WARP_BUILD_ENABLE_DEVBME680)
 					warpPrint("\r\t- 'b' BME680			(0xAA--0xF8): 1.6V -- 3.6V\n");
 				#else
 					warpPrint("\r\t- 'b' BME680			(0xAA--0xF8): 1.6V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVTCS34725)
-					warpPrint("\r\t- 'd' TCS34725			(0x00--0x1D): 2.7V -- 3.3V\n");
-				#else
-					warpPrint("\r\t- 'd' TCS34725			(0x00--0x1D): 2.7V -- 3.3V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVSI4705)
-					warpPrint("\r\t- 'e' SI4705			(n/a):        2.7V -- 5.5V\n");
-				#else
-					warpPrint("\r\t- 'e' SI4705			(n/a):        2.7V -- 5.5V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVCCS811)
-					warpPrint("\r\t- 'g' CCS811			(0x00--0xFF): 1.8V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- 'g' CCS811			(0x00--0xFF): 1.8V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVAMG8834)
-					warpPrint("\r\t- 'h' AMG8834			(0x00--?): 3.3V -- 3.3V\n");
-				#else
-					warpPrint("\r\t- 'h' AMG8834			(0x00--?): 3.3V -- 3.3V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVAS7262)
-					warpPrint("\r\t- 'j' AS7262			(0x00--0x2B): 2.7V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- 'j' AS7262			(0x00--0x2B): 2.7V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVAS7263)
-					warpPrint("\r\t- 'k' AS7263			(0x00--0x2B): 2.7V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- 'k' AS7263			(0x00--0x2B): 2.7V -- 3.6V (compiled out) \n");
-				#endif
-
-				#if (WARP_BUILD_ENABLE_DEVINA219)
-					warpPrint("\r\t- 'l' INA219			(0x00--0x05): 2.7V -- 3.6V\n");
-				#else
-					warpPrint("\r\t- 'l' INA219			(0x00--0x05): 2.7V -- 3.6V (compiled out) \n");
 				#endif
 
 				warpPrint("\r\tEnter selection> ");
@@ -1696,155 +1597,11 @@ main(void)
 
 				switch(key)
 				{
-					#if (WARP_BUILD_ENABLE_DEVADXL362)
-						case '1':
-						{
-							menuTargetSensor = kWarpSensorADXL362;
-
-							break;
-						}
-					#endif
-
-					#if (WARP_BUILD_ENABLE_DEVBMX055)
-						case '2':
-						{
-							menuTargetSensor = kWarpSensorBMX055accel;
-							menuI2cDevice = &deviceBMX055accelState;
-							break;
-						}
-					#endif
-
-					#if (WARP_BUILD_ENABLE_DEVBMX055)
-						case '3':
-						{
-							menuTargetSensor = kWarpSensorBMX055gyro;
-							menuI2cDevice = &deviceBMX055gyroState;
-							break;
-						}
-					#endif
-
-					#if (WARP_BUILD_ENABLE_DEVBMX055)
-						case '4':
-						{
-							menuTargetSensor = kWarpSensorBMX055mag;
-							menuI2cDevice = &deviceBMX055magState;
-							break;
-						}
-					#endif
-
-					#if (WARP_BUILD_ENABLE_DEVMMA8451Q)
-						case '5':
-						{
-							menuTargetSensor = kWarpSensorMMA8451Q;
-							menuI2cDevice = &deviceMMA8451QState;
-							break;
-						}
-					#endif
-
-					#if (WARP_BUILD_ENABLE_DEVLPS25H)
-						case '6':
-						{
-							menuTargetSensor = kWarpSensorLPS25H;
-							menuI2cDevice = &deviceLPS25HState;
-							break;
-						}
-					#endif
-
-					#if (WARP_BUILD_ENABLE_DEVMAG3110)
-						case '7':
-						{
-							menuTargetSensor = kWarpSensorMAG3110;
-							menuI2cDevice = &deviceMAG3110State;
-							break;
-						}
-					#endif
-
-					#if (WARP_BUILD_ENABLE_DEVHDC1000)
-						case '8':
-						{
-							menuTargetSensor = kWarpSensorHDC1000;
-							menuI2cDevice = &deviceHDC1000State;
-							break;
-						}
-					#endif
-
-#if (WARP_BUILD_ENABLE_DEVSI7021)
-					case '9':
-					{
-						menuTargetSensor = kWarpSensorSI7021;
-						menuI2cDevice = &deviceSI7021State;
-						break;
-					}
-#endif
-#if (WARP_BUILD_ENABLE_DEVL3GD20H)
-					case 'a':
-					{
-						menuTargetSensor = kWarpSensorL3GD20H;
-						menuI2cDevice = &deviceL3GD20HState;
-						break;
-					}
-#endif
 #if (WARP_BUILD_ENABLE_DEVBME680)
 					case 'b':
 					{
 						menuTargetSensor = kWarpSensorBME680;
 						menuI2cDevice = &deviceBME680State;
-						break;
-					}
-#endif
-#if (WARP_BUILD_ENABLE_DEVTCS34725)
-					case 'd':
-					{
-						menuTargetSensor = kWarpSensorTCS34725;
-						menuI2cDevice = &deviceTCS34725State;
-						break;
-					}
-#endif
-#if (WARP_BUILD_ENABLE_DEVSI4705)
-					case 'e':
-					{
-						menuTargetSensor = kWarpSensorSI4705;
-						menuI2cDevice = &deviceSI4705State;
-						break;
-					}
-#endif
-#if (WARP_BUILD_ENABLE_DEVCCS811)
-					case 'g':
-					{
-						menuTargetSensor = kWarpSensorCCS811;
-						menuI2cDevice = &deviceCCS811State;
-						break;
-					}
-#endif
-#if (WARP_BUILD_ENABLE_DEVAMG8834)
-					case 'h':
-					{
-						menuTargetSensor = kWarpSensorAMG8834;
-						menuI2cDevice = &deviceAMG8834State;
-						break;
-					}
-#endif
-#if (WARP_BUILD_ENABLE_DEVAS7262)
-					case 'j':
-					{
-						menuTargetSensor = kWarpSensorAS7262;
-						menuI2cDevice = &deviceAS7262State;
-						break;
-					}
-#endif
-#if (WARP_BUILD_ENABLE_DEVAS7263)
-					case 'k':
-					{
-						menuTargetSensor = kWarpSensorAS7263;
-						menuI2cDevice = &deviceAS7263State;
-						break;
-					}
-#endif
-#if (WARP_BUILD_ENABLE_DEVINA219)
-					case 'l':
-					{
-						menuTargetSensor = kWarpSensorINA219;
-						menuI2cDevice = &deviceINA219State;
 						break;
 					}
 #endif
@@ -1944,20 +1701,7 @@ main(void)
 
 				if (i2cAddress == 0x99)
 				{
-#if (WARP_BUILD_ENABLE_DEVADXL362)
-					warpPrint("\r\n\tWriting [0x%02x] to SPI register [0x%02x]...\n", payloadByte[0], menuRegisterAddress);
-					status = writeSensorRegisterADXL362(	0x0A			/*	command == write register	*/,
-										menuRegisterAddress,
-										payloadByte[0]		/*	writeValue			*/,
-										1			/*	numberOfBytes			*/
-									);
-					if (status != kWarpStatusOK)
-					{
-						warpPrint("\r\n\tSPI write failed, error %d.\n\n", status);
-					}
-					#else
 					warpPrint("\r\n\tSPI write failed. ADXL362 Disabled");
-#endif
 				}
 				else
 				{
