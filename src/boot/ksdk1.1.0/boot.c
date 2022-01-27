@@ -1371,7 +1371,7 @@ main(void)
 					warpPrint("configureSensorBME680() failed...\n");
 	 }
 	 raw_temp = printSensorDataBME680(false);
-	 warpPrint("raw_temperature: %u\n", raw_temp)
+	 warpPrint("raw_temperature: %u\n", raw_temp);
 	 warpPrint("\n");
 
 	 // Initialise RV8803C7 external RTC and check it's working
