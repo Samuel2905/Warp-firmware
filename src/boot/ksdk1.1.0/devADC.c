@@ -67,7 +67,7 @@ uint16_t level(void) {
 	for (uint8_t n = 0; n<reps; n+=1)
 	{
 		Voltage += readADC();
-    OSA_TimeDelay(500)
+    OSA_TimeDelay(500);
 	}
 	Voltage /= reps;
 	return Voltage;
