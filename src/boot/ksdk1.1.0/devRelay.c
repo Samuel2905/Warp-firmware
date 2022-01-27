@@ -31,10 +31,10 @@ void initRelay(void) {
 
 void TurnOnRelay(void) {
   GPIO_DRV_SetPinOutput(kRelayPin);
-  warpPrint("Relay On\n");
+  // warpPrint("Relay On\n");
 }
 
 void TurnOffRelay(void) {
   GPIO_DRV_ClearPinOutput(kRelayPin);
-  warpPrint("Relay Off\n");
+  // warpPrint("Relay Off\n");
 }

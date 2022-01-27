@@ -1455,18 +1455,18 @@ main(void)
 					// create an rtc_datetime_t object from these?
 				}
 			}
-			warpPrint("Water Level: %dmm    ", Water_level);
-			warpPrint("%d:%d:%d %d/%d/%d    ", conv_dates[2], conv_dates[1], conv_dates[0], conv_dates[4], conv_dates[5], conv_dates[6]);
+			warpPrint("Water Level: %dmm  ", Water_level);
+			warpPrint("%d:%d:%d %d/%d/%d  ", conv_dates[2], conv_dates[1], conv_dates[0], conv_dates[4], conv_dates[5], conv_dates[6]);
 		}
 
 		// Add temperature measurement
 
 		// If water level is below the threshold, the time is between 0 and the pump hasn't already been on tonight, turn the pump on
-		if ((Water_level < threshold) && (0 <= conv_dates[2]) && (conv_dates[2] < 10) && (pumped == false))
+		if ((Water_level < threshold) && (0 <= conv_dates[2]) && (conv_dates[2] < 24) && (pumped == false))
 		{
 			TurnOnRelay();
 			pump = true;
-			warpPrint("Pump On");
+			warpPrint("Pump On  ");
 			// Add pump LED?
 		}
 		// Turn pump off, set pumped to true if the pump was on, and reset pumped at midday
@@ -1476,7 +1476,7 @@ main(void)
 			if (pump == true)
 			{
       	pumped = true;
-				warpPrint("Pumped    ");
+				warpPrint("Pumped  ");
     	}
 			pump = false;
 		}
@@ -1488,7 +1488,7 @@ main(void)
 		// If level is near the top of sensor, give a warning
 		if (Water_level > 300)
 		{
-			warpPrint("High Water Level    ");
+			warpPrint("High Water Level  ");
 			// Turn an LED on?
 		}
 
