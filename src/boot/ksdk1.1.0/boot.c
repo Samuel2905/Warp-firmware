@@ -1331,6 +1331,7 @@ main(void)
 	uint16_t ADCDec, ADCVolt;
 	uint16_t Water_level;
 	uint32_t	raw_temp;
+	int16_t temperature;
 	uint8_t bcd_dates[7];
 	uint8_t conv_dates[7];
 	bool pump = false;
@@ -1372,6 +1373,8 @@ main(void)
 	 }
 	 raw_temp = printSensorDataBME680(false);
 	 warpPrint("raw_temperature: %u\n", raw_temp);
+	 temperature = calc_temperature(raw_temp);
+	 warpPrint("Temperature: %d\n", temperature);
 	 warpPrint("\n");
 
 	 // Initialise RV8803C7 external RTC and check it's working
@@ -1459,7 +1462,7 @@ main(void)
 		// Read Temperature
 		// add attempted conversion to degrees
 		raw_temp = printSensorDataBME680(false);
- 	 	warpPrint("Temp: %u", raw_temp);
+ 	 	warpPrint("Temp: %u  ", raw_temp);
 
 		/*
 		Turn Pump on if:

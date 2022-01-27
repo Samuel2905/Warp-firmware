@@ -328,3 +328,34 @@ printSensorDataBME680(bool hexModeFlag)
 	}
 	return raw_temperature;
 }
+
+int16_t
+calc_temperature(uint32_t temp_adc)
+{
+	int64_t var1;
+	int64_t var2;
+	int64_t var3;
+	int32_t T_fine;
+	int16_t calc_temp;
+	int16_t	T1_all, T2_all;
+	uint8_t	T3_all;
+
+	// Calibration values
+	// Calculated in configure sensor, but are now hard coded for simplicity
+	// As they don't (assuming the same sensor is used)
+
+	T1_all = 25883;
+	T2_all = 26584;
+	T3_all = 3;
+
+	// Calculation taken from below repository, although it doesn't seem to give the correct answer
+	// https://github.com/BoschSensortec/BME680_driver/blob/757e1f155c13bcdd34403579bd246b27f2963bf4/bme680.c#L867
+
+	var1 = ((int32_t) temp_adc >> 3) - ((int32_t) T1_all << 1);
+	var2 = (var1 * (int32_t) T2_all) >> 11;
+	var3 = ((var1 >> 1) * (var1 >> 1)) >> 12;
+	var3 = ((var3) * ((int32_t) T3_all << 4)) >> 14;
+	T_fine = (int32_t) (var2 + var3);
+	calc_temp = (int16_t) (((T_fine * 5) + 128) >> 8);
+	return calc_temp;
+}
