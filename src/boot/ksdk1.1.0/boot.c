@@ -1345,7 +1345,7 @@ main(void)
 	 ADCVolt = Voltage_ADC(ADCDec);
 	 warpPrint("ADC Voltage: %d mV\n", ADCVolt);
 	 water = level();
-	 warpPrint("Water Level: %d mV\n", water);
+	 warpPrint("Water Level: %d mm\n", water);
 	 initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
 	 status = configureSensorBME680(	0b00000001,	/*	payloadCtrl_Hum: Humidity oversampling (OSRS) to 1x				*/
 	 				0b00100100,	/*	payloadCtrl_Meas: Temperature oversample 1x, pressure overdsample 1x, mode 00	*/
