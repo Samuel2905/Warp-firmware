@@ -76,7 +76,7 @@ uint16_t level(void) {
     OSA_TimeDelay(500);
 	}
 	ADC_Val /= reps;
-  height = (-1394000 / Voltage) + 2864;
+  height = (-1394000 / ADC_Val) + 2864;
   height_mm = (int)height;
 	return height_mm;
 }
