@@ -1448,6 +1448,7 @@ main(void)
 		}
 		else
 		{
+			/*
 			for (uint8_t n = 0; n<7; n+=1)
 			{
 				if (n != 3) // don't convert weekday
@@ -1462,6 +1463,8 @@ main(void)
 			now.hour	= conv_dates[2];
 			now.minute	= conv_dates[1];
 			now.second	= conv_dates[0];
+			*/
+			now = RegistersToBin(bcd_dates);
 			warpPrint("Water Level: %dmm  ", Water_level);
 			warpPrint("%d:%d:%d %d/%d/%d  ", now.hour, now.minute, now.second, now.day, now.month, now.year);
 		}

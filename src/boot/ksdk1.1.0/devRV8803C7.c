@@ -447,3 +447,27 @@ setRTCCountdownRV8803C7(uint16_t countdown, WarpRV8803ExtTD clk_freq, bool inter
 
 	return ret;
 }
+
+rtc_datetime_t
+RegistersToBin(uint8_t raw[])
+{
+	rtc_datetime_t time;
+	uint8_t conv[7];
+
+	// given the outptu of reading 7 registers, covert the values from bcd to bin
+	// and return rtc_datetime_t object
+	for (uint8_t n = 0; n<7; n+=1)
+	{
+		if (n != 3) // don't convert weekday
+		{
+			conv[n] = bcd2bin(raw[n]);
+		}
+	}
+	time.year	= conv[6];
+	time.month	= conv[5];
+	time.day	= conv[4];
+	time.hour	= conv[2];
+	time.minute	= conv[1];
+	time.second	= conv[0];
+	return time;
+}
