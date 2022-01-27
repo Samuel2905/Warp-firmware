@@ -69,71 +69,9 @@
 #define							kWarpConstantStringErrorSanity		"\rSanity check failed!"
 
 
-#include "devSSD1331.h"
+
 #include "devRelay.h"
 #include "devADC.h"
-
-#if (WARP_BUILD_ENABLE_DEVADXL362)
-	#include "devADXL362.h"
-	volatile WarpSPIDeviceState			deviceADXL362State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVIS25xP)
-	#include "devIS25xP.h"
-	volatile WarpSPIDeviceState			deviceIS25xPState;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVISL23415)
-	#include "devISL23415.h"
-	volatile WarpSPIDeviceState			deviceISL23415State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVAT45DB)
-	#include "devAT45DB.h"
-	volatile WarpSPIDeviceState			deviceAT45DBState;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVICE40)
-	#include "devICE40.h"
-	volatile WarpSPIDeviceState			deviceICE40State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVBMX055)
-	#include "devBMX055.h"
-	volatile WarpI2CDeviceState			deviceBMX055accelState;
-	volatile WarpI2CDeviceState			deviceBMX055gyroState;
-	volatile WarpI2CDeviceState			deviceBMX055magState;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVMMA8451Q)
-	#include "devMMA8451Q.h"
-	volatile WarpI2CDeviceState			deviceMMA8451QState;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVLPS25H)
-	#include "devLPS25H.h"
-	volatile WarpI2CDeviceState			deviceLPS25HState;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVHDC1000)
-	#include "devHDC1000.h"
-	volatile WarpI2CDeviceState			deviceHDC1000State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVMAG3110)
-	#include "devMAG3110.h"
-	volatile WarpI2CDeviceState			deviceMAG3110State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVSI7021)
-	#include "devSI7021.h"
-	volatile WarpI2CDeviceState			deviceSI7021State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVL3GD20H)
-	#include "devL3GD20H.h"
-	volatile WarpI2CDeviceState			deviceL3GD20HState;
-#endif
 
 #if (WARP_BUILD_ENABLE_DEVBME680)
 	#include "devBME680.h"
@@ -141,49 +79,9 @@
 	volatile uint8_t				deviceBME680CalibrationValues[kWarpSizesBME680CalibrationValuesCount];
 #endif
 
-#if (WARP_BUILD_ENABLE_DEVTCS34725)
-	#include "devTCS34725.h"
-	volatile WarpI2CDeviceState			deviceTCS34725State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVSI4705)
-	#include "devSI4705.h"
-	volatile WarpI2CDeviceState			deviceSI4705State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVCCS811)
-	#include "devCCS811.h"
-	volatile WarpI2CDeviceState			deviceCCS811State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVAMG8834)
-	#include "devAMG8834.h"
-	volatile WarpI2CDeviceState			deviceAMG8834State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVAS7262)
-	#include "devAS7262.h"
-	volatile WarpI2CDeviceState			deviceAS7262State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVAS7263)
-	#include "devAS7263.h"
-	volatile WarpI2CDeviceState			deviceAS7263State;
-#endif
-
 #if (WARP_BUILD_ENABLE_DEVRV8803C7)
 	#include "devRV8803C7.h"
 	volatile WarpI2CDeviceState			deviceRV8803C7State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVINA219)
-	#include "devINA219.h"
-	volatile WarpI2CDeviceState			deviceINA219State;
-#endif
-
-#if (WARP_BUILD_ENABLE_DEVBGX)
-	#include "devBGX.h"
-	volatile WarpUARTDeviceState			deviceBGXState;
 #endif
 
 
@@ -375,16 +273,7 @@ sleepUntilReset(void)
 {
 	while (1)
 	{
-		#if (WARP_BUILD_ENABLE_DEVSI4705)
-			GPIO_DRV_SetPinOutput(kWarpPinSI4705_nRST);
-		#endif
-
 		warpLowPowerSecondsSleep(1, false /* forceAllPinsIntoLowPowerState */);
-
-		#if (WARP_BUILD_ENABLE_DEVSI4705)
-			GPIO_DRV_ClearPinOutput(kWarpPinSI4705_nRST);
-		#endif
-
 		warpLowPowerSecondsSleep(60, true /* forceAllPinsIntoLowPowerState */);
 	}
 }
@@ -572,29 +461,6 @@ warpDeasserAllSPIchipSelects(void)
 	PORT_HAL_SetMuxMode(PORTA_BASE, 9, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTA_BASE, 8, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTB_BASE, 1, kPortMuxAsGpio);
-	#if (WARP_BUILD_ENABLE_GLAUX_VARIANT)
-		PORT_HAL_SetMuxMode(PORTB_BASE, 2, kPortMuxAsGpio);
-	#endif
-
-	#if (WARP_BUILD_ENABLE_DEVISL23415)
-		GPIO_DRV_SetPinOutput(kWarpPinISL23415_SPI_nCS);
-	#endif
-
-	#if (WARP_BUILD_ENABLE_DEVAT45DB)
-		GPIO_DRV_SetPinOutput(kWarpPinAT45DB_SPI_nCS);
-	#endif
-
-	#if (WARP_BUILD_ENABLE_DEVADXL362)
-		GPIO_DRV_SetPinOutput(kWarpPinADXL362_SPI_nCS);
-	#endif
-
-	#if (WARP_BUILD_ENABLE_DEVICE40)
-		GPIO_DRV_SetPinOutput(kWarpPinFPGA_nCS);
-	#endif
-
-	#if (WARP_BUILD_ENABLE_GLAUX_VARIANT)
-		GPIO_DRV_SetPinOutput(kGlauxPinFlash_SPI_nCS);
-	#endif
 }
 
 
@@ -647,115 +513,6 @@ warpDisableI2Cpins(void)
 	CLOCK_SYS_DisableI2cClock(0);
 }
 
-
-#if (WARP_BUILD_ENABLE_GLAUX_VARIANT)
-	void
-	lowPowerPinStates(void)
-	{
-		/*
-		 *	Following Section 5 of "Power Management for Kinetis L Family" (AN5088.pdf),
-		 *	we configure all pins as output and set them to a known state, except for the
-		 *	sacrificial pins (WLCSP package, Glaux) where we set them to disabled. We choose
-		 *	to set non-disabled pins to '0'.
-		 *
-		 *	NOTE: Pin state "disabled" means default functionality is active.
-		 */
-
-		/*
-		 *			PORT A
-		 */
-		/*
-		 *	Leave PTA0/1/2 SWD pins in their default state (i.e., as SWD / Alt3).
-		 *
-		 *	See GitHub issue https://github.com/physical-computation/Warp-firmware/issues/54
-		 */
-		PORT_HAL_SetMuxMode(PORTA_BASE, 0, kPortMuxAlt3);
-		PORT_HAL_SetMuxMode(PORTA_BASE, 1, kPortMuxAlt3);
-		PORT_HAL_SetMuxMode(PORTA_BASE, 2, kPortMuxAlt3);
-
-		/*
-		 *	PTA3 and PTA4 are the EXTAL0/XTAL0. They are also connected to the clock output
-		 *	of the RV8803 (and PTA4 is a sacrificial pin for PTA3), so do not want to drive them.
-		 *	We however have to configure PTA3 to Alt0 (kPortPinDisabled) to get the EXTAL0
-		 *	functionality.
-		 *
-		 *	NOTE:	kPortPinDisabled is the equivalent of `Alt0`
-		 */
-		PORT_HAL_SetMuxMode(PORTA_BASE, 3, kPortPinDisabled);
-		PORT_HAL_SetMuxMode(PORTA_BASE, 4, kPortPinDisabled);
-
-		/*
-		 *	Disable PTA5
-		 *
-		 *	NOTE: Enabling this significantly increases current draw
-		 *	(from ~180uA to ~4mA) and we don't need the RTC on Glaux.
-		 *
-		 */
-		PORT_HAL_SetMuxMode(PORTA_BASE, 5, kPortPinDisabled);
-
-		/*
-		 *	PTA6, PTA7, PTA8, and PTA9 on Glaux are SPI and sacrificial SPI.
-		 *
-		 *	Section 2.6 of Kinetis Energy Savings – Tips and Tricks says
-		 *
-		 *		"Unused pins should be configured in the disabled state, mux(0),
-		 *		to prevent unwanted leakage (potentially caused by floating inputs)."
-		 *
-		 *	However, other documents advice to place pin as GPIO and drive low or high.
-		 *	For now, leave disabled. Filed issue #54 low-power pin states to investigate.
-		 */
-		PORT_HAL_SetMuxMode(PORTA_BASE, 6, kPortPinDisabled);
-		PORT_HAL_SetMuxMode(PORTA_BASE, 7, kPortPinDisabled);
-		PORT_HAL_SetMuxMode(PORTA_BASE, 8, kPortPinDisabled);
-		PORT_HAL_SetMuxMode(PORTA_BASE, 9, kPortPinDisabled);
-
-		/*
-		 *	NOTE: The KL03 has no PTA10 or PTA11
-		 */
-
-		/*
-		 *	In Glaux, PTA12 is a sacrificial pin for SWD_RESET, so careful not to drive it.
-		 */
-		PORT_HAL_SetMuxMode(PORTA_BASE, 12, kPortPinDisabled);
-
-
-
-		/*
-		 *			PORT B
-		 *
-		 *	PTB0 is LED on Glaux. PTB1 is unused, and PTB2 is FLASH_!CS
-		 */
-		PORT_HAL_SetMuxMode(PORTB_BASE, 0, kPortMuxAsGpio);
-		PORT_HAL_SetMuxMode(PORTB_BASE, 1, kPortPinDisabled);
-		PORT_HAL_SetMuxMode(PORTB_BASE, 2, kPortMuxAsGpio);
-
-		/*
-		 *	PTB3 and PTB4 (I2C pins) are true open-drain and we
-		 *	purposefully leave them disabled since they have pull-ups.
-		 *	PTB5 is sacrificial for I2C_SDA, so disable.
-		 */
-		PORT_HAL_SetMuxMode(PORTB_BASE, 3, kPortPinDisabled);
-		PORT_HAL_SetMuxMode(PORTB_BASE, 4, kPortPinDisabled);
-		PORT_HAL_SetMuxMode(PORTB_BASE, 5, kPortPinDisabled);
-
-		/*
-		 *	NOTE:
-		 *
-		 *	The KL03 has no PTB8, PTB9, or PTB12.  Additionally, the WLCSP package
-		 *	we in Glaux has no PTB6, PTB7, PTB10, or PTB11.
-		 */
-
-		/*
-		 *	In Glaux, PTB13 is a sacrificial pin for SWD_RESET, so careful not to drive it.
-		 */
-		PORT_HAL_SetMuxMode(PORTB_BASE, 13, kPortPinDisabled);
-
-		GPIO_DRV_SetPinOutput(kGlauxPinFlash_SPI_nCS);
-		GPIO_DRV_ClearPinOutput(kGlauxPinLED);
-
-		return;
-	}
-#else
 	void
 	lowPowerPinStates(void)
 	{
@@ -831,7 +588,6 @@ warpDisableI2Cpins(void)
 		PORT_HAL_SetMuxMode(PORTB_BASE, 11, kPortPinDisabled);
 		PORT_HAL_SetMuxMode(PORTB_BASE, 13, kPortPinDisabled);
 	}
-#endif
 
 
 void
@@ -1116,28 +872,6 @@ warpLowPowerSecondsSleep(uint32_t sleepSeconds, bool forceAllPinsIntoLowPowerSta
 	}
 }
 
-
-/*
-void
-printPinDirections(void)
-{
-	warpPrint("I2C0_SDA:%d\n", GPIO_DRV_GetPinDir(kWarpPinI2C0_SDA_UART_RX));
-	OSA_TimeDelay(100);
-	warpPrint("I2C0_SCL:%d\n", GPIO_DRV_GetPinDir(kWarpPinI2C0_SCL_UART_TX));
-	OSA_TimeDelay(100);
-	warpPrint("SPI_MOSI:%d\n", GPIO_DRV_GetPinDir(kWarpPinSPI_MOSI_UART_CTS));
-	OSA_TimeDelay(100);
-	warpPrint("SPI_MISO:%d\n", GPIO_DRV_GetPinDir(kWarpPinSPI_MISO_UART_RTS));
-	OSA_TimeDelay(100);
-	warpPrint("SPI_SCK_I2C_PULLUP_EN:%d\n", GPIO_DRV_GetPinDir(kWarpPinSPI_SCK_I2C_PULLUP_EN));
-	OSA_TimeDelay(100);
-	warpPrint("ADXL362_CS:%d\n", GPIO_DRV_GetPinDir(kWarpPinADXL362_CS));
-	OSA_TimeDelay(100);
-}
-*/
-
-
-
 void
 dumpProcessorState(void)
 {
@@ -1223,58 +957,9 @@ warpPrint(const char *fmt, ...)
 		if (fmtlen < 0)
 		{
 			SEGGER_RTT_WriteString(0, gWarpEfmt);
-
-			#if (WARP_BUILD_ENABLE_DEVBGX)
-				if (gWarpBooted)
-				{
-					WarpStatus	status;
-
-					enableLPUARTpins();
-					initBGX(kWarpDefaultSupplyVoltageMillivoltsBGX);
-					status = sendBytesToUART((uint8_t *)gWarpEfmt, strlen(gWarpEfmt)+1);
-					if (status != kWarpStatusOK)
-					{
-						SEGGER_RTT_WriteString(0, gWarpEuartSendChars);
-					}
-					disableLPUARTpins();
-
-					/*
-					 *	We don't want to deInit() the BGX since that would drop
-					 *	any remote terminal connected to it.
-					 */
-					//deinitBGX();
-				}
-			#endif
-
 			return;
 		}
 
-		/*
-		 *	If WARP_BUILD_ENABLE_DEVBGX, also send the fmt to the UART / BLE.
-		 */
-		#if (WARP_BUILD_ENABLE_DEVBGX)
-			if (gWarpBooted)
-			{
-				WarpStatus	status;
-
-				enableLPUARTpins();
-				initBGX(kWarpDefaultSupplyVoltageMillivoltsBGX);
-
-				status = sendBytesToUART((uint8_t *)gWarpPrintBuffer, max(fmtlen, kWarpDefaultPrintBufferSizeBytes));
-				if (status != kWarpStatusOK)
-				{
-					SEGGER_RTT_WriteString(0, gWarpEuartSendChars);
-				}
-				disableLPUARTpins();
-
-				/*
-				 *	We don't want to deInit() the BGX since that would drop
-				 *	any remote terminal connected to it.
-				 */
-				//deinitBGX();
-			}
-		#endif
-	#else
 		/*
 		 *	If we are not compiling in the SEGGER_RTT_printf,
 		 *	we just send the format string of warpPrint()
@@ -1284,27 +969,6 @@ warpPrint(const char *fmt, ...)
 		/*
 		 *	If WARP_BUILD_ENABLE_DEVBGX, also send the fmt to the UART / BLE.
 		 */
-		#if (WARP_BUILD_ENABLE_DEVBGX)
-			if (gWarpBooted)
-			{
-				WarpStatus	status;
-
-				enableLPUARTpins();
-				initBGX(kWarpDefaultSupplyVoltageMillivoltsBGX);
-				status = sendBytesToUART(fmt, strlen(fmt));
-				if (status != kWarpStatusOK)
-				{
-					SEGGER_RTT_WriteString(0, gWarpEuartSendChars);
-				}
-				disableLPUARTpins();
-
-				/*
-				 *	We don't want to deInit() the BGX since that would drop
-				 *	any remote terminal connected to it.
-				 */
-				//deinitBGX();
-			}
-		#endif
 	#endif
 
 	return;
@@ -1326,19 +990,9 @@ warpWaitKey(void)
 	 *	The check below on rttKey is exactly what SEGGER_RTT_WaitKey()
 	 *	does in SEGGER_RTT.c.
 	 */
-	#if (WARP_BUILD_ENABLE_DEVBGX)
-		deviceBGXState.uartRXBuffer[0] = kWarpMiscMarkerForAbsentByte;
-		enableLPUARTpins();
-		initBGX(kWarpDefaultSupplyVoltageMillivoltsBGX);
-	#endif
-
 	do
 	{
 		rttKey	= SEGGER_RTT_GetKey();
-
-		#if (WARP_BUILD_ENABLE_DEVBGX)
-			bleChar	= deviceBGXState.uartRXBuffer[0];
-		#endif
 
 		/*
 		 *	NOTE: We ignore all chars on BLE except '0'-'9', 'a'-'z'/'A'-Z'
@@ -1348,42 +1002,6 @@ warpWaitKey(void)
 			bleChar = kWarpMiscMarkerForAbsentByte;
 		}
 	} while ((rttKey < 0) && (bleChar == kWarpMiscMarkerForAbsentByte));
-
-	#if (WARP_BUILD_ENABLE_DEVBGX)
-		if (bleChar != kWarpMiscMarkerForAbsentByte)
-		{
-			/*
-			 *	Send a copy of incoming BLE chars to RTT
-			 */
-			SEGGER_RTT_PutChar(0, bleChar);
-			disableLPUARTpins();
-
-			/*
-			 *	We don't want to deInit() the BGX since that would drop
-			 *	any remote terminal connected to it.
-			 */
-			//deinitBGX();
-
-			return (int)bleChar;
-		}
-
-		/*
-		 *	Send a copy of incoming RTT chars to BLE
-		 */
-		WarpStatus status = sendBytesToUART((uint8_t *)&rttKey, 1);
-		if (status != kWarpStatusOK)
-		{
-			SEGGER_RTT_WriteString(0, gWarpEuartSendChars);
-		}
-
-		disableLPUARTpins();
-
-		/*
-		 *	We don't want to deInit() the BGX since that would drop
-		 *	any remote terminal connected to it.
-		 */
-		//deinitBGX();
-	#endif
 
 	return rttKey;
 }
