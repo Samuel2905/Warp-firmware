@@ -114,7 +114,6 @@ WarpStatus	writeRTCRegistersRV8803C7(uint8_t deviceStartRegister, uint8_t nRegs,
 WarpStatus	setRTCTimeRV8803C7(rtc_datetime_t *  tm);
 WarpStatus	setRTCCountdownRV8803C7(uint16_t countdown, WarpRV8803ExtTD clk_freq, bool interupt_enable);
 uint8_t	bcd2bin(uint8_t bcd);
-uint8_t RegisterstoDecimal(uint8_t bcds[]);
 
 /*
  *	TODO: Implement other functions:
