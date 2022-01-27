@@ -1534,7 +1534,6 @@ main(void)
 
 	while (1)
 	{
-		OSA_TimeDelay(5000);
 		status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
 		if (status != kWarpStatusOK)
 		{
@@ -1546,6 +1545,7 @@ main(void)
 			conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
 			warpPrint("Second: %d\n", conv_tmpRV8803RegisterByte);
 		}
+		OSA_TimeDelay(1000);
 	}
 	return 0;
 }
