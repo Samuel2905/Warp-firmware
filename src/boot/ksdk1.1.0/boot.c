@@ -1462,7 +1462,8 @@ main(void)
 		// Read Temperature
 		// add attempted conversion to degrees
 		raw_temp = printSensorDataBME680(false);
- 	 	warpPrint("Temp: %u  ", raw_temp);
+		temperature = calc_temperature(raw_temp);
+		warpPrint("Temperature: %d  ", temperature);
 
 		/*
 		Turn Pump on if:
@@ -1471,7 +1472,7 @@ main(void)
 		- Pump hasn't already been on tonight (to prevent pump repeatedly turning on and off)
 		- Temperature is above 3 degrees (to prevent pump turning on when it might be frozen)
 		*/
-		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 24) && (pumped == false) && (raw_temp > 459952))
+		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 24) && (pumped == false) && (temperature > 300))
 		{
 			TurnOnRelay();
 			pump = true;
