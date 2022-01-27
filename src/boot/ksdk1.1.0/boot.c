@@ -1326,26 +1326,38 @@ main(void)
 	lowPowerPinStates();
 	warpPrint("done.\n");
 
+	// Variable for main program loop
+	uint16_t ADCDec, ADCVolt;
+	uint16_t Water_level;
+	uint8_t bcd_dates[7];
+	uint8_t conv_dates[7];
+	bool pump = false;
+	bool pumped = false;
+
+	// Set the level below which the pump turns on (mm)
+	uint16_t theshold = 200;
+
 	/*
+
 	 *	Initialize all the sensors
 	 */
-
+	 // Initialise and turn off relay
 	 initRelay();
 	 TurnOnRelay();
-	 rtc_datetime_t				warpCurrentDate;
-	 RTC_DRV_GetDatetime(0, &warpCurrentDate);
-	 warpPrint("Year: %d \n", warpCurrentDate.year);
+	 OSA_TimeDelay(2000);
+	 TurnOffRelay();
 
-	 uint16_t ADCDec;
-	 uint16_t ADCVolt;
-	 uint16_t water;
+	 // Initialise ADC
 	 initADC();
+
 	 ADCDec = readADC();
 	 warpPrint("ADC Dec: %d \n", ADCDec);
 	 ADCVolt = Voltage_ADC(ADCDec);
 	 warpPrint("ADC Voltage: %d mV\n", ADCVolt);
-	 water = level();
-	 warpPrint("Water Level: %d mm\n", water);
+	 Water_level = level();
+	 warpPrint("Water Level: %d mm\n", Water_level);
+
+	 // Initialise BME680 (temperature sensor)
 	 initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
 	 status = configureSensorBME680(	0b00000001,	/*	payloadCtrl_Hum: Humidity oversampling (OSRS) to 1x				*/
 	 				0b00100100,	/*	payloadCtrl_Meas: Temperature oversample 1x, pressure overdsample 1x, mode 00	*/
@@ -1358,6 +1370,7 @@ main(void)
 	 printSensorDataBME680(false);
 	 warpPrint("\n");
 
+	 // Initialise RV8803C7 external RTC and check it's working
 	#if (WARP_BUILD_ENABLE_DEVRV8803C7)
 		initRV8803C7(	0x32	/* i2cAddress */,					kWarpDefaultSupplyVoltageMillivoltsRV8803C7	);
 		status = setRTCCountdownRV8803C7(0 /* countdown */, kWarpRV8803ExtTD_1HZ /* frequency */, false /* interupt_enable */);
@@ -1401,6 +1414,7 @@ main(void)
 		}
 	#endif
 	/*
+	// Set RTC to this time
 	rtc_datetime_t				warpRTC;
 	warpRTC.year	= 2022U;
 	warpRTC.month	= 1U;
@@ -1410,35 +1424,6 @@ main(void)
 	warpRTC.second	= 00U;
 	setRTCTimeRV8803C7(&warpRTC);
 	*/
-	uint8_t	tmpRV8803RegisterByte;
-	uint8_t	conv_tmpRV8803RegisterByte;
-	uint8_t bcd_dates[7];
-	uint8_t conv_dates[7];
-	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &bcd_dates);
-	if (status != kWarpStatusOK)
-	{
-		warpPrint("readRTCRegistersRV8803C7(kWarpRV8803RegSec, &date) failed\n");
-	}
-	else
-	{
-		/*
-		warpPrint("kWarpRV8803RegSec = [0x%X]\n", bcd_dates[0]);
-		warpPrint("kWarpRV8803RegMin = [0x%X]\n", bcd_dates[1]);
-		warpPrint("kWarpRV8803RegHour = [0x%X]\n", bcd_dates[2]);
-		warpPrint("kWarpRV8803RegWeekday = [0x%X]\n", bcd_dates[3]);
-		warpPrint("kWarpRV8803RegDate = [0x%X]\n", bcd_dates[4]);
-		warpPrint("kWarpRV8803RegMonth = [0x%X]\n", bcd_dates[5]);
-		warpPrint("kWarpRV8803RegYear = [0x%X]\n", bcd_dates[6]);
-		*/
-		for (uint8_t n = 0; n<7; n+=1)
-		{
-			if (n != 3) // don't convert weekday
-			{
-				conv_dates[n] = bcd2bin(bcd_dates[n]);
-			}
-		}
-		warpPrint("%d:%d:%d %d/%d/%d\n", conv_dates[2], conv_dates[1], conv_dates[0], conv_dates[4], conv_dates[5], conv_dates[6]);
-	}
 
 	/*
 	 *	At this point, we consider the system "booted" and, e.g., warpPrint()s
@@ -1450,18 +1435,24 @@ main(void)
 	while (1)
 	{
 		// main loop code here
-		water = level();
-		warpPrint("Water Level: %d mm\n", water);
+		Water_level = level();
+		warpPrint("Water Level: %d mm\n", Water_level);
 
-		status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
+		status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &bcd_dates);
 		if (status != kWarpStatusOK)
 		{
-			warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte) failed\n");
+			warpPrint("readRTCRegistersRV8803C7(kWarpRV8803RegSec, &date) failed\n");
 		}
 		else
 		{
-			conv_tmpRV8803RegisterByte = bcd2bin(tmpRV8803RegisterByte);
-			warpPrint("Second: %d\n", conv_tmpRV8803RegisterByte);
+			for (uint8_t n = 0; n<7; n+=1)
+			{
+				if (n != 3) // don't convert weekday
+				{
+					conv_dates[n] = bcd2bin(bcd_dates[n]);
+				}
+			}
+			warpPrint("%d:%d:%d %d/%d/%d\n", conv_dates[2], conv_dates[1], conv_dates[0], conv_dates[4], conv_dates[5], conv_dates[6]);
 		}
 		OSA_TimeDelay(1000);
 	}
