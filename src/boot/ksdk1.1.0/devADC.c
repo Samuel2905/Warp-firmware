@@ -30,7 +30,9 @@ uint32_t instance = 0;
 uint32_t chnGroup = 0;
 uint8_t chn = 8;        //PTB1 is ADC0_SE8
 uint8_t reps = 2;
-uint16_t Voltage = 0;
+float ADC_Val = 0;
+float height = 0;
+uint16_t height_mm = 0;
 
 void initADC(void) {
   // PORT_HAL_SetMuxMode(PORTB_BASE, 1u, kPortMuxAlt0);
@@ -57,7 +59,11 @@ uint16_t readADC(void) {
   //warpPrint("ADC Hex Value: 0x%X\n", MyAdcValue);
   MyAdcDec = ADC16_DRV_ConvRAWData(MyAdcValue, false, kAdcResolutionBitOfSingleEndAs12);
   //warpPrint("ADC dec Value: %ld\n", MyAdcDec);
-  ADCfloat = MyAdcDec * 2970 / 4095;
+  return MyAdcDec;
+}
+
+uint16_t Voltage_ADC(uint16_t raw) {
+  ADCfloat = raw * 2970 / 4095;
   MyAdcVol = (int)ADCfloat;
   //warpPrint("ADC Voltage: %ld mV\n", MyAdcVol);
   return MyAdcVol;
@@ -66,9 +72,11 @@ uint16_t readADC(void) {
 uint16_t level(void) {
 	for (uint8_t n = 0; n<reps; n+=1)
 	{
-		Voltage += readADC();
+		ADC_Val += readADC();
     OSA_TimeDelay(500);
 	}
-	Voltage /= reps;
-	return Voltage;
+	ADC_Val /= reps;
+  height = (-1394000 / Voltage) + 2864;
+  height_mm = (int)height;
+	return height_mm;
 }

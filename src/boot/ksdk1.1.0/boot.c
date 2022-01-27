@@ -1336,11 +1336,14 @@ main(void)
 	 RTC_DRV_GetDatetime(0, &warpCurrentDate);
 	 warpPrint("Year: %d \n", warpCurrentDate.year);
 
-	 uint16_t ADCVoltage;
+	 uint16_t ADCDec;
+	 uint16_t ADCVolt;
 	 uint16_t water;
 	 initADC();
-	 ADCVoltage = readADC();
-	 warpPrint("ADC Voltage: %d mV\n", ADCVoltage);
+	 ADCDec = readADC();
+	 warpPrint("ADC Dec: %d \n", ADCDec);
+	 ADCVolt = Voltage_ADC(ADCDec);
+	 warpPrint("ADC Voltage: %d mV\n", ADCVolt);
 	 water = level();
 	 warpPrint("Water Level: %d mV\n", water);
 	 initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
