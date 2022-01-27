@@ -1411,7 +1411,26 @@ main(void)
 	setRTCTimeRV8803C7(&warpRTC);
 	*/
 	uint8_t	tmpRV8803RegisterByte;
-	uint8_t conv_tmpRV8803RegisterByte;
+	uint8_t	conv_tmpRV8803RegisterByte;
+	uint8_t date[7];
+	/*
+	uint8_t Second;
+	uint8_t Minute;
+	uint8_t Hour;
+	uint8_t Date;
+	uint8_t Month;
+	uint8_t Year;
+	*/
+	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &date);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegistersRV8803C7(kWarpRV8803RegSec, &date) failed\n");
+	}
+	else
+	{
+		warpPrint("kWarpRV8803RegSec = [0x%X]\n", date[0]);
+	}
+
 	status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
 	if (status != kWarpStatusOK)
 	{
@@ -1515,6 +1534,9 @@ main(void)
 	while (1)
 	{
 		// main loop code here
+		water = level();
+		warpPrint("Water Level: %d mm\n", water);
+
 		status = readRTCRegisterRV8803C7(kWarpRV8803RegSec, &tmpRV8803RegisterByte);
 		if (status != kWarpStatusOK)
 		{
