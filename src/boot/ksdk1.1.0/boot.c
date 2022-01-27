@@ -1435,9 +1435,11 @@ main(void)
 	while (1)
 	{
 		// main loop code here
+		// Read water level
 		Water_level = level();
-		warpPrint("Water Level: %d mm\n", Water_level);
+		//warpPrint("Water Level: %d mm\n", Water_level);
 
+		// Read time
 		status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &bcd_dates);
 		if (status != kWarpStatusOK)
 		{
@@ -1450,11 +1452,51 @@ main(void)
 				if (n != 3) // don't convert weekday
 				{
 					conv_dates[n] = bcd2bin(bcd_dates[n]);
+					// create an rtc_datetime_t object from these?
 				}
 			}
-			warpPrint("%d:%d:%d %d/%d/%d\n", conv_dates[2], conv_dates[1], conv_dates[0], conv_dates[4], conv_dates[5], conv_dates[6]);
+			warpPrint("Water Level: %dmm    ", Water_level);
+			warpPrint("%d:%d:%d %d/%d/%d    ", conv_dates[2], conv_dates[1], conv_dates[0], conv_dates[4], conv_dates[5], conv_dates[6]);
 		}
-		OSA_TimeDelay(1000);
+
+		// Add temperature measurement
+
+		// If water level is below the threshold, the time is between 0 and the pump hasn't already been on tonight, turn the pump on
+		if (Water_level < threshold and 0 <= conv_dates[2] and conv_dates[2] < 10 and pumped == false)
+		{
+			TurnOnRelay();
+			pump = true;
+			warpPrint("Pump On");
+			// Add pump LED?
+		}
+		// Turn pump off, set pumped to true if the pump was on, and reset pumped at midday
+		else
+		{
+			TurnOffRelay();
+			if (pump == true)
+			{
+      	pumped = true;
+				warpPrint("Pumped    ");
+    	}
+			pump = false;
+		}
+		if (now.hour() == 12)
+		{
+			pumped = false;
+		}
+
+		// If level is near the top of sensor, give a warning
+		if (Water_level > 300)
+		{
+			warpPrint("High Water Level    ");
+			// Turn an LED on?
+		}
+
+		warpPrint("\n");
+
+		// Calculate time delay to be time till next hour
+		// Or create countdown timer on RTC
+		OSA_TimeDelay(2000);
 	}
 	return 0;
 }
