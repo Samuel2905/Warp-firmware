@@ -1345,11 +1345,15 @@ main(void)
 
 	 *	Initialize all the sensors
 	 */
-	 // Initialise and turn off relay
-	 initRelay();
+	 // Initialise and turn off relay and LEDs
+	 initOutputPins();
 	 TurnOnRelay();
-	 OSA_TimeDelay(2000);
+	 ErrorsOn();
+	 HighWaterOn();
+	 OSA_TimeDelay(5000);
 	 TurnOffRelay();
+	 ErrorsOff();
+	 HighWaterOff();
 
 	 // Initialise ADC
 	 initADC();
@@ -1370,12 +1374,8 @@ main(void)
 	 if (status != kWarpStatusOK)
 	 {
 					warpPrint("configureSensorBME680() failed...\n");
+					ErrorsOn();
 	 }
-	 raw_temp = printSensorDataBME680(false);
-	 warpPrint("raw_temperature: %u\n", raw_temp);
-	 temperature = calc_temperature(raw_temp);
-	 warpPrint("Temperature: %d\n", temperature);
-	 warpPrint("\n");
 
 	 // Initialise RV8803C7 external RTC and check it's working
 	#if (WARP_BUILD_ENABLE_DEVRV8803C7)
@@ -1384,6 +1384,7 @@ main(void)
 		if (status != kWarpStatusOK)
 		{
 			warpPrint("setRTCCountdownRV8803C7() failed...\n");
+			ErrorsOn();
 		}
 		else
 		{
@@ -1399,6 +1400,7 @@ main(void)
 		if (status != kWarpStatusOK)
 		{
 			warpPrint("readRTCRegisterRV8803C7() failed...\n");
+			ErrorsOn();
 		}
 		else
 		{
@@ -1414,6 +1416,7 @@ main(void)
 		if (status != kWarpStatusOK)
 		{
 			warpPrint("writeRTCRegisterRV8803C7() failed...\n");
+			ErrorsOn();
 		}
 		else
 		{
@@ -1451,6 +1454,7 @@ main(void)
 		if (status != kWarpStatusOK)
 		{
 			warpPrint("readRTCRegistersRV8803C7(kWarpRV8803RegSec, &date) failed\n");
+			ErrorsOn();
 		}
 		else
 		{
@@ -1459,8 +1463,7 @@ main(void)
 			warpPrint("Water Level: %dmm  ", Water_level);
 		}
 
-		// Read Temperature
-		// add attempted conversion to degrees
+		// Read Temperature ( in degrees C * 100)
 		raw_temp = printSensorDataBME680(false);
 		temperature = calc_temperature(raw_temp);
 		warpPrint("Temperature: %d  ", temperature);
@@ -1495,11 +1498,15 @@ main(void)
 			pumped = false;
 		}
 
-		// If level is near the top of sensor, give a warning
+		// If level is near the top of sensor, give a warning and turn LED on
 		if (Water_level > 300)
 		{
 			warpPrint("High Water Level  ");
-			// Turn an LED on?
+			HighWaterOn();
+		}
+		else
+		{
+			HighWaterOff();
 		}
 
 		warpPrint("\n");

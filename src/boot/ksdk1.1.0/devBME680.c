@@ -348,7 +348,7 @@ calc_temperature(uint32_t temp_adc)
 	T2_all = 26584;
 	T3_all = 3;
 
-	// Calculation taken from below repository, although it doesn't seem to give the correct answer
+	// Calculation taken from below repository, returns temperature * 100
 	// https://github.com/BoschSensortec/BME680_driver/blob/757e1f155c13bcdd34403579bd246b27f2963bf4/bme680.c#L867
 
 	var1 = ((int32_t) temp_adc >> 3) - ((int32_t) T1_all << 1);
