@@ -1126,7 +1126,8 @@ void wait_time(bool pump)
 {
 	WarpStatus status;
 	uint8_t mins, secs, minutes;
-	rtc_datetime_t	wait_now, delay_time;
+	rtc_datetime_t	wait_now;
+	uint32_t delay_time;
 	uint8_t wait_bcd[7];
 	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &wait_bcd);
 	if (status != kWarpStatusOK)
@@ -1151,7 +1152,7 @@ void wait_time(bool pump)
     secs = 60 - wait_now.second;
   }
 
-	delay_time = (mins * 60 + secs);
+	delay_time = mins * 60 + secs;
 	warpPrint("Wait Time (s): %u  ", delay_time);
 	OSA_TimeDelay(secs * 1000);
 	// wait 60s mins times
