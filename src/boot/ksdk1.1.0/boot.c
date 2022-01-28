@@ -1122,6 +1122,37 @@ warpWaitKey(void)
 	return rttKey;
 }
 
+uint32_t wait_time(bool pump)
+{
+	uint8_t mins, secs;
+	uint32_t wait
+	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &bcd_dates);
+	if (status != kWarpStatusOK)
+	{
+		warpPrint("readRTCRegistersRV8803C7(kWarpRV8803RegSec, &date) failed\n");
+		ErrorsOn();
+	}
+	else
+	{
+		now = RegistersToBin(bcd_dates);
+		//warpPrint("%d:%d:%d %d/%d/%d  ", now.hour, now.minute, now.second, now.day, now.month, now.year);
+	}
+	// Measure once an hour if pump is off
+  if (pump == false) {
+    mins = 59 - now.minute;
+    secs = 60 - now.second;
+  }
+	// Measure every 10 minutes if pump is on
+  else
+	{
+    mins = 9 - (now.minute % 10);
+    secs = 60 - now.second;
+  }
+    wait = (mins * 60 + secs) * 1000;
+    return wait;
+}
+
+
 int
 main(void)
 {
@@ -1330,7 +1361,7 @@ main(void)
 	rtc_datetime_t	now;
 	uint16_t ADCDec, ADCVolt;
 	uint16_t Water_level;
-	uint32_t	raw_temp;
+	uint32_t	raw_temp, delay_time;
 	int16_t temperature;
 	uint8_t bcd_dates[7];
 	uint8_t conv_dates[7];
@@ -1462,7 +1493,7 @@ main(void)
 		// Read Temperature ( in degrees C * 100)
 		raw_temp = printSensorDataBME680(false);
 		temperature = calc_temperature(raw_temp);
-		warpPrint("Temperature: %d  ", temperature);
+		warpPrint("Temperature: %d centi-C  ", temperature);
 
 		/*
 		Turn Pump on if:
@@ -1505,11 +1536,13 @@ main(void)
 			HighWaterOff();
 		}
 
-		warpPrint("\n");
-
 		// Calculate time delay to be time till next hour
 		// Or create countdown timer on RTC
+		delay_time = wait_time(pump);
+		warpPrint("Wait Time: %u", delay_time);
+		//OSA_TimeDelay(delay_time);
 		OSA_TimeDelay(2000);
+		warpPrint("\n");
 	}
 	return 0;
 }
