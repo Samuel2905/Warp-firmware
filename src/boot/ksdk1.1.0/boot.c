@@ -1125,7 +1125,7 @@ warpWaitKey(void)
 void wait_time(bool pump)
 {
 	WarpStatus status;
-	uint8_t mins, secs, minutes;
+	uint8_t mins, secs;
 	rtc_datetime_t	wait_now;
 	uint32_t delay_time;
 	uint8_t wait_bcd[7];
@@ -1156,7 +1156,7 @@ void wait_time(bool pump)
 	warpPrint("Wait Time (s): %u  ", delay_time);
 	OSA_TimeDelay(secs * 1000);
 	// wait 60s mins times
-	for (uint8_t n = 0; n<minutes; n+=1)
+	for (uint8_t n = 0; n<mins; n+=1)
 	{
 		OSA_TimeDelay(60000);
 	}
