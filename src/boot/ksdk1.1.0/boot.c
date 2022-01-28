@@ -1124,9 +1124,12 @@ warpWaitKey(void)
 
 uint32_t wait_time(bool pump)
 {
+	WarpStatus status;
 	uint8_t mins, secs;
-	uint32_t wait
-	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &bcd_dates);
+	uint32_t wait;
+	rtc_datetime_t	wait_now;
+	uint8_t wait_bcd[7];
+	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &wait_bcd);
 	if (status != kWarpStatusOK)
 	{
 		warpPrint("readRTCRegistersRV8803C7(kWarpRV8803RegSec, &date) failed\n");
@@ -1134,19 +1137,19 @@ uint32_t wait_time(bool pump)
 	}
 	else
 	{
-		now = RegistersToBin(bcd_dates);
+		wait_now = RegistersToBin(bcd_dates);
 		//warpPrint("%d:%d:%d %d/%d/%d  ", now.hour, now.minute, now.second, now.day, now.month, now.year);
 	}
 	// Measure once an hour if pump is off
   if (pump == false) {
-    mins = 59 - now.minute;
-    secs = 60 - now.second;
+    mins = 59 - wait_now.minute;
+    secs = 60 - wait_now.second;
   }
 	// Measure every 10 minutes if pump is on
   else
 	{
-    mins = 9 - (now.minute % 10);
-    secs = 60 - now.second;
+    mins = 9 - (wait_now.minute % 10);
+    secs = 60 - wait_now.second;
   }
     wait = (mins * 60 + secs) * 1000;
     return wait;
@@ -1364,7 +1367,6 @@ main(void)
 	uint32_t	raw_temp, delay_time;
 	int16_t temperature;
 	uint8_t bcd_dates[7];
-	uint8_t conv_dates[7];
 	bool pump = false;
 	bool pumped = false;
 
