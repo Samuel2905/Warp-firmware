@@ -1347,10 +1347,6 @@ main(void)
 	 */
 	 // Initialise and turn off relay and LEDs
 	 initOutputPins();
-	 TurnOnRelay();
-	 ErrorsOn();
-	 HighWaterOn();
-	 OSA_TimeDelay(5000);
 	 TurnOffRelay();
 	 ErrorsOff();
 	 HighWaterOff();
