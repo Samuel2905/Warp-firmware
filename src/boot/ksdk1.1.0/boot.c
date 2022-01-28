@@ -1129,6 +1129,8 @@ void wait_time(bool pump)
 	rtc_datetime_t	wait_now;
 	uint32_t delay_time;
 	uint8_t wait_bcd[7];
+
+	// Read time
 	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &wait_bcd);
 	if (status != kWarpStatusOK)
 	{
@@ -1138,14 +1140,14 @@ void wait_time(bool pump)
 	else
 	{
 		wait_now = RegistersToBin(wait_bcd);
-		//warpPrint("%d:%d:%d %d/%d/%d  ", now.hour, now.minute, now.second, now.day, now.month, now.year);
 	}
-	// Measure once an hour if pump is off
+
+	// Take measurements once an hour if pump is off, so delay until then
   if (pump == false) {
     mins = 59 - wait_now.minute;
     secs = 60 - wait_now.second;
   }
-	// Measure every 10 minutes if pump is on
+	// Take measurementsevery 10 minutes if pump is on, so delay until then
   else
 	{
     mins = 9 - (wait_now.minute % 10);
@@ -1155,7 +1157,7 @@ void wait_time(bool pump)
 	delay_time = mins * 60 + secs;
 	warpPrint("Wait Time (s): %u  ", delay_time);
 	OSA_TimeDelay(secs * 1000);
-	// wait 60s mins times
+	// Wait 60s multiple times
 	for (uint8_t n = 0; n<mins; n+=1)
 	{
 		OSA_TimeDelay(60000);
@@ -1367,7 +1369,7 @@ main(void)
 	lowPowerPinStates();
 	warpPrint("done.\n");
 
-	// Variable for main program loop
+	// Variables for main program loop
 	rtc_datetime_t	now;
 	uint16_t ADCDec, ADCVolt;
 	uint16_t Water_level;
@@ -1380,12 +1382,8 @@ main(void)
 
 
 	// Set the level below which the pump turns on (mm)
-	uint16_t threshold = 200;
+	uint16_t threshold = 150;
 
-	/*
-
-	 *	Initialize all the sensors
-	 */
 	 // Initialise and turn off relay and LEDs
 	 initOutputPins();
 	 TurnOffRelay();
@@ -1394,13 +1392,6 @@ main(void)
 
 	 // Initialise ADC
 	 initADC();
-
-	 ADCDec = readADC();
-	 warpPrint("ADC Dec: %d \n", ADCDec);
-	 ADCVolt = Voltage_ADC(ADCDec);
-	 warpPrint("ADC Voltage: %d mV\n", ADCVolt);
-	 Water_level = level();
-	 warpPrint("Water Level: %d mm\n", Water_level);
 
 	 // Initialise BME680 (temperature sensor)
 	 initBME680(	0x77	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsBME680	);
@@ -1461,7 +1452,7 @@ main(void)
 		}
 	#endif
 	/*
-	// Set RTC to this time
+	// Uncomment to set RTC time and date
 	rtc_datetime_t				warpRTC;
 	warpRTC.year	= 2022U;
 	warpRTC.month	= 1U;
@@ -1481,10 +1472,8 @@ main(void)
 
 	while (1)
 	{
-		// main loop code here
 		// Read water level
 		Water_level = level();
-		//warpPrint("Water Level: %d mm\n", Water_level);
 
 		// Read time
 		status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &bcd_dates);
@@ -1508,18 +1497,17 @@ main(void)
 		/*
 		Turn Pump on if:
 		- Water level is below the threshold level
-		- Time is between 0am and 10am (so pump only turns on at night)
+		- Time is between 0am and 8am (so pump only turns on at night)
 		- Pump hasn't already been on tonight (to prevent pump repeatedly turning on and off)
 		- Temperature is above 3 degrees (to prevent pump turning on when it might be frozen)
 		*/
-		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 24) && (pumped == false) && (temperature > 300))
+		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 8) && (pumped == false) && (temperature > 300))
 		{
 			TurnOnRelay();
 			pump = true;
 			warpPrint("Pump On  ");
-			// Add pump LED?
 		}
-		// Turn pump off, set pumped to true if the pump was on, and reset pumped at midday
+		// Turn pump off and set pumped to true if the pump was on,
 		else
 		{
 			TurnOffRelay();
@@ -1530,6 +1518,7 @@ main(void)
     	}
 			pump = false;
 		}
+		// Reset pumped at midday
 		if (now.hour == 12)
 		{
 			pumped = false;
@@ -1546,7 +1535,7 @@ main(void)
 			HighWaterOff();
 		}
 
-		// Delay by necessary time till next measurement
+		// Delay by necessary time until next measurement
 		wait_time(pump);
 		status = readRTCRegisterRV8803C7(kWarpRV8803RegMin, &minutes);
 		if (status != kWarpStatusOK)
@@ -1558,14 +1547,12 @@ main(void)
 		{
 			minutes = bcd2bin(minutes);
 			// All measurements should start on multiples of 10 minutes
-			// if wait_time hasn't delayed long enough, wait again
+			// If wait_time hasn't delayed long enough, wait again
 			if ((minutes % 10) > 2)
 			{
 				wait_time(pump);
 			}
 		}
-		//OSA_TimeDelay(2000);
-
 		warpPrint("\n");
 	}
 	return 0;

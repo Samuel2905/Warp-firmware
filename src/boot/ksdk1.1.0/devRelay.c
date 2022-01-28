@@ -32,7 +32,6 @@ void initOutputPins(void) {
 	PORT_HAL_SetMuxMode(PORTB_BASE, 7, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTB_BASE, 5, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTB_BASE, 0, kPortMuxAsGpio);
-
 }
 
 void TurnOnRelay(void) {

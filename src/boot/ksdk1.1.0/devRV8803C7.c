@@ -249,9 +249,7 @@ bin2bcd(uint8_t bin)
 uint8_t
 bcd2bin(uint8_t bcd)
 {
-	/*
-	 *	Convert a int to bcd format
-	 */
+	// convert bcd values from the RTC back to int
 	uint8_t		r, d, bin;
 	d = bcd;
 	bin = 0;
@@ -329,9 +327,9 @@ setRTCTimeRV8803C7(rtc_datetime_t *tm)
 	/*
 	 *	Restart the clock
 	 */
-	//ctrl &= kWarpRV8803CtrlRESET;  // doesn't clear bit
+	//ctrl &= kWarpRV8803CtrlRESET;  // this is wrong as it doesn't clear bit so clock doesn't restart
+	// clear the 0th but of ctrl, which is kWarpRV8803CtrlRESET,
 	ctrl &= ~(1UL << 0);
-	//ctrl = 0b00000000;
 	ret = writeRTCRegisterRV8803C7(kWarpRV8803RegCtrl, ctrl);
 	if (ret)
 	{
@@ -454,7 +452,8 @@ RegistersToBin(uint8_t raw[])
 	rtc_datetime_t time;
 	uint8_t conv[7];
 
-	// given the outptu of reading 7 registers, covert the values from bcd to bin
+	// given the outptut of readRTCRegistersRV8803C7 for the first 7 registers,
+	//convert the values from bcd to bin
 	// and return rtc_datetime_t object
 	for (uint8_t n = 0; n<7; n+=1)
 	{
