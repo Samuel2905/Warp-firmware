@@ -1541,9 +1541,16 @@ main(void)
 		// Calculate time delay to be time till next hour
 		// Or create countdown timer on RTC
 		delay_time = wait_time(pump);
-		warpPrint("Wait Time: %u", delay_time);
-		//OSA_TimeDelay(delay_time);
-		OSA_TimeDelay(2000);
+		warpPrint("Wait Time: %u  ", delay_time);
+		OSA_TimeDelay(delay_time);
+		if (wait_time(pump) < 60000)
+		{
+			delay_time = wait_time(pump);
+			warpPrint("2nd Wait Time: %u", delay_time);
+			OSA_TimeDelay(delay_time);
+		}
+		//OSA_TimeDelay(2000);
+
 		warpPrint("\n");
 	}
 	return 0;
