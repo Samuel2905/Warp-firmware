@@ -23,8 +23,8 @@ enum
 {
 	kRelayPin	= GPIO_MAKE_PIN(HW_GPIOB, 6), // PTB2 doesn't work
 	kRelayLEDPin	= GPIO_MAKE_PIN(HW_GPIOB, 7),
-	kLEDErrors= GPIO_MAKE_PIN(HW_GPIOB, 5),
-	kLEDHighWater= GPIO_MAKE_PIN(HW_GPIOB, 0),
+	kLEDErrors= GPIO_MAKE_PIN(HW_GPIOB, 0),
+	kLEDHighWater= GPIO_MAKE_PIN(HW_GPIOB, 5),
 };
 
 void initOutputPins(void) {
