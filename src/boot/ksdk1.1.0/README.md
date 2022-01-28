@@ -36,3 +36,7 @@ This sets up the ADC that is on the microcontroller into one-time trigger mode
 `readADC()` takes a measurement and returns the raw value (from 0 to 4095)
 `Voltage_ADC` converts the raw value to a voltage
 `level()` takes several time averaged measurements and then calculates and return the water level in mm
+
+
+#### GitHub repository
+https://github.com/Samuel2905/Warp-firmware
