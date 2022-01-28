@@ -1137,7 +1137,7 @@ uint32_t wait_time(bool pump)
 	}
 	else
 	{
-		wait_now = RegistersToBin(bcd_dates);
+		wait_now = RegistersToBin(wait_bcd);
 		//warpPrint("%d:%d:%d %d/%d/%d  ", now.hour, now.minute, now.second, now.day, now.month, now.year);
 	}
 	// Measure once an hour if pump is off
