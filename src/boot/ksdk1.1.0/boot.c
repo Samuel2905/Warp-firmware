@@ -1122,12 +1122,11 @@ warpWaitKey(void)
 	return rttKey;
 }
 
-uint32_t wait_time(bool pump)
+void wait_time(bool pump)
 {
 	WarpStatus status;
-	uint8_t mins, secs;
-	uint32_t wait;
-	rtc_datetime_t	wait_now;
+	uint8_t mins, secs, minutes;
+	rtc_datetime_t	wait_now, delay_time;
 	uint8_t wait_bcd[7];
 	status = readRTCRegistersRV8803C7(kWarpRV8803RegSec, 7, &wait_bcd);
 	if (status != kWarpStatusOK)
@@ -1151,8 +1150,15 @@ uint32_t wait_time(bool pump)
     mins = 9 - (wait_now.minute % 10);
     secs = 60 - wait_now.second;
   }
-    wait = (mins * 60 + secs) * 1000;
-    return wait;
+
+	delay_time = (mins * 60 + secs);
+	warpPrint("Wait Time (s): %u  ", delay_time);
+	OSA_TimeDelay(secs * 1000);
+	// wait 60s mins times
+	for (uint8_t n = 0; n<minutes; n+=1)
+	{
+		OSA_TimeDelay(60000);
+	}
 }
 
 
@@ -1364,9 +1370,10 @@ main(void)
 	rtc_datetime_t	now;
 	uint16_t ADCDec, ADCVolt;
 	uint16_t Water_level;
-	uint32_t	raw_temp, delay_time;
+	uint32_t	raw_temp;
 	int16_t temperature;
 	uint8_t bcd_dates[7];
+	uint8_t minutes;
 	bool pump = false;
 	bool pumped = false;
 
@@ -1538,16 +1545,23 @@ main(void)
 			HighWaterOff();
 		}
 
-		// Calculate time delay to be time till next hour
-		// Or create countdown timer on RTC
-		delay_time = wait_time(pump);
-		warpPrint("Wait Time: %u  ", delay_time);
-		OSA_TimeDelay(delay_time);
-		if (wait_time(pump) < 60000)
+		// Delay by necessary time till next measurement
+		wait_time(pump);
+		status = readRTCRegisterRV8803C7(kWarpRV8803RegMin, &minutes);
+		if (status != kWarpStatusOK)
 		{
-			delay_time = wait_time(pump);
-			warpPrint("2nd Wait Time: %u", delay_time);
-			OSA_TimeDelay(delay_time);
+			warpPrint("readRTCRegisterRV8803C7(kWarpRV8803RegMin, &tmpRV8803RegisterByte) failed\n");
+			ErrorsOn();
+		}
+		else
+		{
+			minutes = bcd2bin(minutes);
+			// All measurements should start on multiples of 10 minutes
+			// if wait_time hasn't delayed long enough, wait again
+			if ((minutes % 10) > 2)
+			{
+				wait_time(pump);
+			}
 		}
 		//OSA_TimeDelay(2000);
 

@@ -29,7 +29,7 @@ uint32_t i;
 uint32_t instance = 0;
 uint32_t chnGroup = 0;
 uint8_t chn = 8;        //PTB1 is ADC0_SE8
-uint8_t reps = 2;
+uint8_t reps = 10;
 float ADC_Val = 0;
 float height = 0;
 uint16_t height_mm = 0;
@@ -74,7 +74,7 @@ uint16_t level(void) {
 	for (uint8_t n = 0; n<reps; n+=1)
 	{
 		ADC_Val += readADC();
-    OSA_TimeDelay(500);
+    OSA_TimeDelay(1000);
 	}
 	ADC_Val /= reps;
   //height = (-1394000 / ADC_Val) + 2864;
