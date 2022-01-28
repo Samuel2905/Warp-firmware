@@ -24,14 +24,14 @@ enum
 	kRelayPin	= GPIO_MAKE_PIN(HW_GPIOB, 6), // PTB2 doesn't work
 	kRelayLEDPin	= GPIO_MAKE_PIN(HW_GPIOB, 7),
 	kLEDErrors= GPIO_MAKE_PIN(HW_GPIOB, 5),
-	kLEDHighWater= GPIO_MAKE_PIN(HW_GPIOA, 0),
+	kLEDHighWater= GPIO_MAKE_PIN(HW_GPIOB, 10),
 };
 
 void initOutputPins(void) {
 	PORT_HAL_SetMuxMode(PORTB_BASE, 6, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTB_BASE, 7, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTB_BASE, 5, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTA_BASE, 0, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTB_BASE, 10, kPortMuxAsGpio);
 
 }
 
