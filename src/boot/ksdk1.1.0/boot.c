@@ -1160,7 +1160,7 @@ void wait_time(bool pump)
 	// Wait 60s multiple times
 	for (uint8_t n = 0; n<mins; n+=1)
 	{
-		OSA_TimeDelay(60000);
+		OSA_TimeDelay(60);
 	}
 }
 
