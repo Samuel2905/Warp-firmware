@@ -1156,7 +1156,7 @@ void wait_time(bool pump)
 
 	delay_time = mins * 60 + secs;
 	warpPrint("Wait Time (s): %u  ", delay_time);
-	OSA_TimeDelay(secs * 1000);
+	OSA_TimeDelay(secs);
 	// Wait 60s multiple times
 	for (uint8_t n = 0; n<mins; n+=1)
 	{
@@ -1501,7 +1501,7 @@ main(void)
 		- Pump hasn't already been on tonight (to prevent pump repeatedly turning on and off)
 		- Temperature is above 3 degrees (to prevent pump turning on when it might be frozen)
 		*/
-		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 8) && (pumped == false) && (temperature > 300))
+		if ((Water_level < threshold) && (0 <= now.hour) && (now.hour < 20) && (pumped == false) && (temperature > 300))
 		{
 			TurnOnRelay();
 			pump = true;
